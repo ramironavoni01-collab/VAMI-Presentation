@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VAMI Plan de Marketing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Lienzo 1920x1080. Azul noche VAMI con aperturas claras; coral solo para Vami Plus y lo que hay que mirar primero. Tipografía y líneas antes que cajas. */
+:root{
+  color-scheme:dark;
+  --bg:#070E22;--bg2:#0B1530;--line:rgba(255,255,255,.09);--line2:rgba(255,255,255,.17);
+  --ink:#F3F5FB;--mut:#93A0C2;--mut2:#5F6C90;
+  --navy:#1F3864;--blue:#4C6FFF;--blue2:#9DB2FF;--coral:#FF7A5C;
+  --light:#F3F5FA;--lk:#12204A;--lmut:#5A6585;
+  --fh:"Sora","Segoe UI",system-ui,sans-serif;--fb:"DM Sans","Segoe UI",system-ui,sans-serif;
+  --ease:cubic-bezier(.76,0,.24,1);--out:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#040816;overflow:hidden;color:var(--ink);font-family:var(--fb);-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
+:focus-visible{outline:2px solid var(--coral);outline-offset:3px}
+kbd{font:600 .78em var(--fb);padding:.2em .55em;border:1px solid var(--line2);border-radius:6px;background:rgba(255,255,255,.05);color:var(--ink)}
+img{display:block;max-width:100%}
+
+/* escenario */
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;overflow:hidden;background:var(--bg);transform:translate(-50%,-50%)}
+#stage.noanim .slide{transition:none!important}
+.slide{position:absolute;inset:0;overflow:hidden;visibility:hidden;background:var(--bg);transition:transform 1.05s var(--ease),opacity 1.05s var(--ease);will-change:transform}
+.slide.vis{visibility:visible}
+.slide.light{background:var(--light);color:var(--lk)}
+.pad{position:absolute;inset:0;padding:150px 140px 128px;display:flex;flex-direction:column}
+aside.notes{display:none}
+
+/* tipografía */
+.eye{font:600 17px/1 var(--fb);letter-spacing:.24em;text-transform:uppercase;color:var(--mut);display:flex;gap:16px;align-items:center}
+.eye b{color:var(--blue2);font-family:var(--fh);font-weight:700;letter-spacing:.04em}
+.eye .ln{width:48px;height:1px;background:var(--line2)}
+.light .eye{color:var(--lmut)}.light .eye b{color:var(--blue)}.light .eye .ln{background:rgba(18,32,74,.22)}
+h1,h2,h3,h4{font-family:var(--fh);margin:0;font-weight:700;letter-spacing:-.035em}
+.mega{font-size:100px;line-height:1.02}
+.h2{font-size:74px;line-height:1.05;margin-top:26px;max-width:1560px}
+.h3{font-size:46px;line-height:1.08;margin-top:24px}
+.lead{font-size:30px;line-height:1.5;color:var(--mut);margin:26px 0 0;max-width:1100px}
+.light .lead{color:var(--lmut)}
+p{margin:0}
+.body{font-size:25px;line-height:1.5;color:var(--mut)}
+.light .body{color:var(--lmut)}
+.src{margin-top:auto;padding-top:18px;font-size:18px;color:var(--mut2)}
+.light .src{color:#8A93AD}
+em{font-style:normal}
+.grad,.kin em .kw>span,.slide em:not(.kin em){background:linear-gradient(95deg,#C3CFFF 0%,#6C88FF 45%,#A9BBFF 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.light .grad,.light .kin em .kw>span,.light em:not(.kin em){background:linear-gradient(95deg,#1F3864,#4C6FFF);-webkit-background-clip:text;background-clip:text;color:transparent}
+.plus .kin em .kw>span,.plus em:not(.kin em),.co{background:linear-gradient(95deg,#FFB39F 0%,#FF7A5C 50%,#FF9F87 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.num{font-variant-numeric:tabular-nums}
+b,strong{font-weight:700;color:inherit}
+.body b{color:var(--ink)}.light .body b{color:var(--lk)}
+
+/* movimiento */
+.rv{opacity:0;transform:translateY(34px);transition:opacity .9s var(--out),transform 1s var(--out);transition-delay:calc(var(--d,0) * 85ms + 380ms)}
+.act .rv{opacity:1;transform:none}
+.rv.sc{transform:scale(.94)}.act .rv.sc{transform:none}
+.kin .kw{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.2em;margin-bottom:-.2em}
+.kin .kw>span{display:inline-block;transform:translateY(108%);transition:transform 1.05s var(--out);transition-delay:calc(var(--k) * 45ms + 300ms)}
+.act .kin .kw>span{transform:none}
+.kin em .kw>span{padding-bottom:.2em;margin-bottom:-.2em}
+@media (prefers-reduced-motion:reduce){.slide,.rv,.kin .kw>span,.fbar,.st,.gb{transition-duration:.01s!important;transition-delay:0s!important}}
+
+/* ambiente */
+.glow{position:absolute;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(76,111,255,.3) 0,rgba(76,111,255,0) 62%);animation:drift 16s ease-in-out infinite alternate}
+.glow.c{background:radial-gradient(circle,rgba(255,122,92,.22) 0,rgba(255,122,92,0) 62%)}
+.light .glow{background:radial-gradient(circle,rgba(76,111,255,.13) 0,rgba(76,111,255,0) 62%)}
+@keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(-80px,50px) scale(1.12)}}
+.grid{position:absolute;inset:0;pointer-events:none;opacity:.55;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:96px 96px;-webkit-mask-image:radial-gradient(ellipse at 72% 38%,#000 0,transparent 68%);mask-image:radial-gradient(ellipse at 72% 38%,#000 0,transparent 68%)}
+.light .grid{background-image:linear-gradient(rgba(18,32,74,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(18,32,74,.06) 1px,transparent 1px)}
+.ghost{position:absolute;font-family:var(--fh);font-weight:800;letter-spacing:-.06em;line-height:.8;color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.07);pointer-events:none;user-select:none}
+.light .ghost{-webkit-text-stroke:1.5px rgba(18,32,74,.08)}
+
+/* piezas */
+.card{position:relative;border-radius:22px;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));border:1px solid var(--line);overflow:hidden;transition:transform .5s var(--out),border-color .4s}
+.card::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .4s;background:radial-gradient(520px circle at var(--mx,50%) var(--my,50%),rgba(108,136,255,.2),transparent 45%)}
+.card:hover{border-color:rgba(157,178,255,.4);transform:translateY(-4px)}.card:hover::before{opacity:1}
+.light .card{background:#fff;border-color:rgba(18,32,74,.08);box-shadow:0 20px 50px -30px rgba(18,32,74,.3)}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:999px;border:1px solid var(--line2);font-size:22px;color:var(--ink);background:rgba(255,255,255,.03);white-space:nowrap;transition:.3s}
+.chip:hover{border-color:var(--blue2);background:rgba(76,111,255,.16)}
+.light .chip{color:var(--lk);border-color:rgba(18,32,74,.16);background:#fff}
+.chip.hot{border-color:var(--coral);color:var(--coral)}
+.shot{position:relative;margin:0;border-radius:18px;overflow:hidden;background:#fff;border:1px solid var(--line2);box-shadow:0 50px 120px -40px rgba(40,70,255,.55),0 30px 60px -30px rgba(0,0,0,.8);cursor:zoom-in}
+.shot .bar{height:36px;display:flex;align-items:center;gap:8px;padding:0 16px;background:#0B1530;border-bottom:1px solid var(--line)}
+.shot .bar i{width:11px;height:11px;border-radius:50%;background:#2A3560}
+.shot .bar span{margin-left:14px;font:500 13px var(--fb);color:var(--mut)}
+.shot img{width:100%;height:auto}
+.light .shot{box-shadow:0 50px 100px -50px rgba(18,32,74,.5)}
+.float{animation:float 7s ease-in-out infinite alternate}
+@keyframes float{from{transform:translateY(0)}to{transform:translateY(-14px)}}
+.pts{margin-top:34px;display:flex;flex-direction:column;gap:22px}
+.pt{display:grid;grid-template-columns:56px 1fr;gap:22px;align-items:center}
+.pt .dot{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;background:rgba(76,111,255,.15);color:var(--blue2);font:700 18px var(--fh)}
+.light .pt .dot{background:rgba(31,56,100,.08);color:var(--navy)}
+.pt h4{margin:2px 0 5px;font:600 29px/1.2 var(--fh);letter-spacing:-.01em}
+.pt p{font-size:22px;line-height:1.5;color:var(--mut)}
+.light .pt p{color:var(--lmut)}
+.cols{display:grid;gap:0;margin-top:56px}
+.cols>div{padding:0 44px;border-left:1px solid var(--line2)}
+.cols>div:first-child{padding-left:0;border-left:0}
+.light .cols>div{border-color:rgba(18,32,74,.16)}
+.cols .n{font:700 17px var(--fh);letter-spacing:.14em;color:var(--blue2)}
+.light .cols .n{color:var(--blue)}
+.cols h3{font-size:42px;line-height:1.12;margin:20px 0 14px;letter-spacing:-.025em}
+.cols p{font-size:25px;line-height:1.5;color:var(--mut)}
+.light .cols p{color:var(--lmut)}
+.bigv{font:700 128px/.95 var(--fh);letter-spacing:-.05em}
+.split{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;min-height:0}
+.rows{display:flex;flex-direction:column}
+.rows .r{display:grid;gap:36px;align-items:center;padding:27px 22px;border-bottom:1px solid var(--line);border-radius:14px;transition:background .3s}
+.rows .r:hover{background:rgba(255,255,255,.05)}
+.light .rows .r{border-color:rgba(18,32,74,.12)}.light .rows .r:hover{background:#fff}
+.rows .th{font:600 15px var(--fb);letter-spacing:.2em;text-transform:uppercase;color:var(--mut);padding-top:0}
+.light .rows .th{color:var(--lmut)}
+.rows .k{font:600 29px/1.2 var(--fh);letter-spacing:-.01em}
+.rows .v{font-size:23px;line-height:1.4;color:var(--mut)}
+.light .rows .v{color:var(--lmut)}
+.st-ok,.st-no,.st-mid{font:600 18px var(--fb);letter-spacing:.06em;padding:7px 14px;border-radius:999px;white-space:nowrap;justify-self:start}
+.st-ok{background:#DDF3E6;color:#18703D}.st-no{background:#FFE1D9;color:#B4381F}.st-mid{background:#E6EAF4;color:#56617F}
+
+/* cromo */
+#chrome{position:absolute;inset:0;pointer-events:none;z-index:40}
+#chrome .top{position:absolute;left:140px;right:140px;top:50px;display:flex;align-items:center;justify-content:space-between;transition:opacity .6s}
+.brand{display:flex;align-items:center;gap:22px}
+.brand .wm{position:relative;height:38px;width:160px}
+.brand .wm img{height:38px;width:auto;position:absolute;left:0;top:0;transition:opacity .5s}
+.brand .wm img+img{opacity:0}
+.brand .sep{width:1px;height:26px;background:var(--line2)}
+.brand .nm{font:600 15px var(--fb);letter-spacing:.02em;color:var(--mut)}
+.where{display:flex;gap:18px;align-items:center;font:500 14px var(--fb);color:var(--mut);letter-spacing:.08em;text-transform:uppercase}
+.where b{font-family:var(--fh);color:var(--ink);font-weight:700}
+#prog{position:absolute;left:140px;right:520px;bottom:52px;display:flex;gap:6px;pointer-events:auto}
+#prog i{flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,.13);position:relative;cursor:pointer;transition:background .4s}
+#prog i::before{content:"";position:absolute;left:0;right:0;top:-12px;bottom:-12px}
+#prog i.done{background:rgba(255,255,255,.42)}#prog i.cur{background:var(--blue)}
+#prog i span{position:absolute;bottom:16px;left:0;white-space:nowrap;font:500 13px var(--fb);color:var(--ink);background:#111B3A;border:1px solid var(--line2);padding:6px 10px;border-radius:8px;opacity:0;transform:translateY(4px);transition:.25s;pointer-events:none;font-style:normal}
+#prog i:hover span{opacity:1;transform:none}
+#nav{position:absolute;right:140px;bottom:34px;display:flex;gap:8px;pointer-events:auto;align-items:center}
+#nav button{width:40px;height:40px;border-radius:12px;border:1px solid var(--line2);display:grid;place-items:center;color:var(--ink);transition:.25s;background:rgba(255,255,255,.03)}
+#nav button:hover{background:var(--blue);border-color:var(--blue)}
+#nav button:disabled{opacity:.25;pointer-events:none}
+#nav .k{font:500 12px var(--fb);color:var(--mut2);margin-right:10px;letter-spacing:.06em}
+.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#subs{position:absolute;right:62px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px;align-items:center;pointer-events:auto;transition:opacity .6s}
+#subs i{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:.3s}
+#subs i.cur{background:var(--blue);height:26px;border-radius:6px}
+#subs .more{font:600 11px var(--fb);letter-spacing:.16em;color:var(--blue2);writing-mode:vertical-rl;margin-top:8px;animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(6px)}}
+#stage.lt .brand .wm img:first-child{opacity:0}#stage.lt .brand .wm img+img{opacity:1}
+#stage.lt .brand .nm,#stage.lt .where{color:var(--lmut)}#stage.lt .where b{color:var(--lk)}
+#stage.lt .brand .sep{background:rgba(18,32,74,.2)}
+#stage.lt #prog i{background:rgba(18,32,74,.13)}#stage.lt #prog i.done{background:rgba(18,32,74,.42)}#stage.lt #prog i.cur{background:var(--blue)}
+#stage.lt #nav button{color:var(--lk);border-color:rgba(18,32,74,.18)}#stage.lt #nav button:hover{color:#fff}
+#stage.lt #nav .k{color:var(--lmut)}#stage.lt #nav kbd{color:var(--lk);border-color:rgba(18,32,74,.2)}
+#stage.lt #subs i{background:rgba(18,32,74,.2)}#stage.lt #subs i.cur{background:var(--blue)}#stage.lt #subs .more{color:var(--blue)}
+#stage.cv #chrome .top,#stage.cv #subs{opacity:0}
+#stage.cv0 #prog,#stage.cv0 #nav{opacity:0;pointer-events:none}
+
+/* portada y cierre */
+.cover .pic{position:absolute;right:0;top:0;bottom:0;width:820px}
+.cover .pic img{width:100%;height:100%;object-fit:cover;object-position:50% 20%}
+.cover .pic::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--bg) 0,rgba(7,14,34,.55) 38%,rgba(7,14,34,.1) 100%),linear-gradient(0deg,var(--bg) 0,transparent 26%)}
+.cover .wmk{position:absolute;left:140px;top:120px;width:330px}
+.cover h1{position:absolute;left:140px;top:300px;width:1420px}
+.cover .lead{position:absolute;left:140px;top:606px;margin:0;max-width:820px}
+.cover .rule{position:absolute;left:140px;top:560px;width:96px;height:5px;border-radius:3px;background:var(--coral)}
+.cover .foot{position:absolute;left:140px;right:140px;bottom:62px;display:flex;gap:44px;font-size:17px;color:var(--mut);align-items:center}
+.cover .foot b{color:var(--ink);font-weight:600}
+.cover .foot .hint{margin-left:auto;color:var(--mut)}
+.close h1{position:absolute;left:140px;top:310px;font-size:132px;line-height:.98;width:1300px}
+.close .cta{position:absolute;left:140px;bottom:150px;display:flex;gap:18px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:12px;padding:20px 30px;border-radius:16px;border:1px solid var(--line2);color:#fff;font:600 20px var(--fh);transition:.3s}
+.btn:hover{background:var(--blue);border-color:var(--blue)}
+
+/* resumen */
+.sum{grid-template-columns:repeat(4,1fr)}
+.totals{display:flex;gap:90px;margin-top:auto;align-items:flex-end}
+.totals .v{font:700 116px/1 var(--fh);letter-spacing:-.045em}
+.totals .l{font-size:23px;color:var(--mut);margin-top:10px}
+.light .totals .l{color:var(--lmut)}
+
+/* quiénes */
+.who{display:flex;gap:26px;margin-top:40px}
+.who figure{margin:0;width:270px}
+.who img{width:270px;height:270px;object-fit:cover;border-radius:22px}
+.who figcaption{margin-top:14px}
+.who figcaption b{font:600 26px var(--fh);display:block;letter-spacing:-.01em}
+.who figcaption span{font-size:19px;color:var(--mut)}
+.pull{font:600 38px/1.3 var(--fh);letter-spacing:-.02em;margin-top:40px;padding-left:26px;border-left:4px solid var(--coral)}
+
+/* contexto */
+.tri{grid-template-columns:repeat(3,1fr);margin-top:64px}
+.tri .bigv{font-size:170px}
+.tri p{font-size:28px;margin-top:22px;max-width:440px}
+.tri small{display:block;font-size:18px;color:var(--mut2);margin-top:16px}
+.read{margin-top:auto;font:600 38px/1.3 var(--fh);letter-spacing:-.02em;max-width:1500px}
+
+/* estrategia */
+.opts{flex:1;display:flex;gap:24px;margin-top:50px;min-height:0}
+.opt{flex:1;padding:36px 38px;display:flex;flex-direction:column;transition:flex .7s var(--out),transform .5s var(--out),border-color .4s}
+.opts:hover .opt{flex:.85}.opts .opt:hover{flex:1.5}
+.opt .tg{font:700 16px var(--fh);letter-spacing:.16em;text-transform:uppercase;color:var(--lmut)}
+.opt h3{font-size:48px;line-height:1.05;margin:18px 0 0;letter-spacing:-.03em}
+.opt .bar{height:4px;border-radius:4px;margin:26px 0 22px;width:60px;background:#C3CBDD;transition:width .7s var(--out)}
+.opt:hover .bar{width:100%}
+.opt p{font-size:25px;line-height:1.5;color:var(--lmut)}
+.opt.no h3{color:#9AA3BB;text-decoration:line-through;text-decoration-thickness:2px}
+.opt.yes{background:var(--lk)!important;color:#fff;border-color:var(--lk)!important}
+.opt.yes .tg{color:var(--coral)}.opt.yes .bar{background:var(--coral)}.opt.yes p{color:#C5CFEA}
+.opt .xtra{max-height:0;opacity:0;overflow:hidden;transition:max-height .7s var(--out),opacity .5s;font-size:21px;line-height:1.45;margin-top:14px;color:var(--lmut)}
+.opt.yes .xtra{color:#9DB2FF}
+.opt:hover .xtra{max-height:160px;opacity:1}
+
+/* objetivos */
+.kp{display:grid;grid-template-columns:repeat(4,1fr);margin-top:36px;flex:1}
+.kp>div{padding:20px 36px;border-left:1px solid var(--line2);border-top:1px solid var(--line2)}
+.kp>div:nth-child(4n+1){border-left:0;padding-left:0}
+.kp>div:nth-child(-n+4){border-top:0}
+.kp .k{font:700 17px var(--fh);letter-spacing:.14em;color:var(--blue2)}
+.kp .v{font:700 96px/1 var(--fh);letter-spacing:-.045em;margin-top:12px}
+.kp p{font-size:25px;line-height:1.35;color:var(--mut);margin-top:10px}
+.kp small{font-size:19px;color:var(--mut2);display:block;margin-top:8px}
+.kp .new .k,.kp .new .v{color:var(--coral)}
+
+/* segmentación */
+.seg{flex:1;display:grid;grid-template-columns:1.15fr 1fr;gap:90px;margin-top:46px;min-height:0}
+.s1{position:relative;padding-top:10px}
+.s1 .tag{font:700 17px var(--fh);letter-spacing:.16em;text-transform:uppercase;color:var(--coral)}
+.s1 h3{font-size:80px;line-height:1.02;margin-top:18px;letter-spacing:-.04em}
+.s1 p{font-size:30px;line-height:1.45;color:var(--lmut);margin-top:24px;max-width:700px}
+.s1 .for{margin-top:34px;display:flex;gap:10px;flex-wrap:wrap}
+.others .r{grid-template-columns:190px 1fr}
+.others .lab{font:700 15px var(--fh);letter-spacing:.14em;text-transform:uppercase;color:var(--lmut)}
+
+/* target */
+.quote{font:600 56px/1.2 var(--fh);letter-spacing:-.03em}
+.persona{position:relative;border-radius:26px;overflow:hidden;height:700px}
+.persona img{width:100%;height:100%;object-fit:cover;object-position:70% 30%}
+.persona .cap{position:absolute;left:0;right:0;bottom:0;padding:120px 40px 36px;background:linear-gradient(0deg,rgba(7,14,34,.96) 30%,rgba(7,14,34,0))}
+.persona .cap small{font:700 13px var(--fh);letter-spacing:.16em;text-transform:uppercase;color:var(--coral)}
+.persona .cap h3{font-size:46px;margin-top:10px}
+.persona .cap p{font-size:23px;line-height:1.45;color:#C5CFEA;margin-top:10px}
+
+/* producto */
+.layers{position:relative;border:1px solid var(--line2);border-radius:30px;padding:26px 30px 30px}
+.layers .l2{border:1px solid rgba(157,178,255,.4);border-radius:24px;padding:24px 28px 28px;margin-top:18px}
+.layers .l3{border-radius:18px;padding:26px 30px;margin-top:18px;background:linear-gradient(120deg,#2A46B8,#4C6FFF)}
+.layers small{font:700 15px var(--fh);letter-spacing:.16em;text-transform:uppercase;color:var(--blue2)}
+.layers .l3 small{color:#fff;opacity:.8}
+.layers p{font-size:23px;line-height:1.45;color:var(--mut);margin-top:8px}
+.layers .l3 p{font:600 34px/1.22 var(--fh);color:#fff;letter-spacing:-.02em}
+
+/* precio */
+.ladder{display:flex;align-items:flex-end;gap:16px;height:470px;border-bottom:4px solid rgba(255,255,255,.5);margin-top:auto}
+.st{flex:1;border-radius:16px 16px 0 0;padding:20px 20px 0;color:#fff;transform-origin:bottom;transform:scaleY(0);transition:transform .9s var(--out);transition-delay:calc(var(--i) * 110ms + 500ms)}
+.act .st{transform:none}
+.st b{font:700 26px/1.15 var(--fh);display:block;letter-spacing:-.01em}
+.st span{font-size:20px;line-height:1.3;display:block;margin-top:8px;opacity:.85}
+.prices{display:flex;gap:16px;margin-top:16px}
+.prices div{flex:1;text-align:center;font:700 23px/1.2 var(--fh)}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:50px;margin-top:36px}
+.three p{font-size:25px;line-height:1.45;color:var(--mut)}
+
+/* embudo */
+.fun{display:flex;flex-direction:column;gap:18px}
+.fun .row{display:flex;align-items:center;gap:18px}
+.fbar{height:84px;border-radius:14px;color:#fff;display:flex;align-items:center;padding:0 26px;font:700 29px/1 var(--fh);white-space:nowrap;transform-origin:left;transform:scaleX(0);transition:transform .9s var(--out);transition-delay:calc(var(--i) * 130ms + 500ms)}
+.act .fbar{transform:none}
+.fun .row span{font-size:23px;color:var(--mut)}
+
+/* canal: línea con nodos */
+.lane{position:relative;margin-top:26px}
+.lane svg{position:absolute;left:0;top:11px;width:100%;height:10px;overflow:visible}
+.lane .nodes{display:grid;grid-template-columns:repeat(5,1fr);gap:20px;position:relative}
+.lane .nd i{display:block;width:22px;height:22px;border-radius:50%;background:var(--bg);border:3px solid var(--blue2)}
+.light .lane .nd i{background:var(--light);border-color:var(--blue)}
+.lane.b .nd i{border-color:var(--coral)}
+.lane .nd b{display:block;font:600 32px var(--fh);letter-spacing:-.01em;margin-top:18px}
+.lane .nd span{display:block;font-size:23px;color:var(--mut);line-height:1.4;margin-top:6px}
+.light .lane .nd span{color:var(--lmut)}
+.lanet{font:700 17px var(--fh);letter-spacing:.16em;text-transform:uppercase;color:var(--mut)}
+.light .lanet{color:var(--lmut)}
+
+/* recorrido */
+.tl{position:relative;margin-top:60px;display:grid;grid-template-columns:repeat(7,1fr);gap:18px}
+.tl::before{content:"";position:absolute;left:0;right:0;top:20px;height:2px;background:linear-gradient(90deg,rgba(157,178,255,.7),rgba(157,178,255,.7) 84%,var(--coral) 84%)}
+.tl .ms i{position:relative;display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:var(--bg);border:2px solid var(--blue2);font:700 17px var(--fh);font-style:normal}
+.tl .ms.p i{border-color:var(--coral);color:var(--coral)}
+.tl .d{font:700 15px var(--fh);letter-spacing:.12em;text-transform:uppercase;color:var(--mut);margin-top:22px}
+.tl .ms.p .d{color:var(--coral)}
+.tl h4{font-size:31px;margin-top:8px;letter-spacing:-.02em}
+.tl p{font-size:21px;line-height:1.4;color:var(--mut);margin-top:6px}
+
+/* vami plus */
+.weeks{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:54px;position:relative}
+.weeks::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--coral),rgba(255,122,92,.15))}
+.weeks>div{padding:30px 40px 0 0}
+.weeks small{font:700 17px var(--fh);letter-spacing:.16em;text-transform:uppercase;color:var(--coral)}
+.weeks h3{font-size:46px;margin-top:14px;letter-spacing:-.03em}
+.weeks p{font-size:25px;line-height:1.45;color:var(--mut);margin-top:10px}
+.cmp{display:flex;align-items:flex-end;gap:34px;height:400px}
+.cmp>div{flex:1;text-align:center}
+.cmp .cv{font:700 36px var(--fh);letter-spacing:-.02em}
+.cmp .cb{border-radius:14px 14px 0 0;margin-top:10px;transform-origin:bottom;transform:scaleY(0);transition:transform 1s var(--out) .7s}
+.act .cmp .cb{transform:none}
+.cmp .cl{font-size:18px;color:var(--mut);margin-top:12px}
+.cat{display:grid;grid-template-columns:repeat(3,1fr);gap:60px;margin-top:50px}
+.cat h4{font-size:17px;font-family:var(--fh);letter-spacing:.16em;text-transform:uppercase;color:var(--coral);font-weight:700}
+.cat .cs{display:flex;flex-direction:column;gap:16px;margin-top:22px;align-items:flex-start}
+.cat .chip{font-size:26px;padding:16px 26px}
+.cat .chip.on{background:var(--coral);border-color:var(--coral);color:#1A0D08;font-weight:600}
+
+/* calendario */
+.gantt{display:grid;grid-template-columns:440px repeat(7,1fr);row-gap:13px;align-items:center;font-size:21px}
+.gantt .m{font:700 16px/1 var(--fh);text-align:center;color:#fff;background:var(--lk);padding:13px 0}
+.gantt .m:nth-child(2){border-radius:10px 0 0 10px}.gantt .m:nth-child(8){border-radius:0 10px 10px 0}
+.gantt .g{grid-column:1/-1;font:700 13px/1 var(--fh);letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-top:8px;padding-bottom:6px;border-bottom:1px solid rgba(18,32,74,.14)}
+.gantt .lb{grid-column:1;line-height:1.2}
+.gb{height:28px;border-radius:14px;background:#9FB3E6;transform-origin:left;transform:scaleX(0);transition:transform .8s var(--out);transition-delay:calc(var(--i) * 50ms + 500ms)}
+.act .gb{transform:none}
+.gb.d{background:var(--lk)}.gb.c{background:var(--coral)}.gb.cl{background:#FFC2B3}
+.res .r{grid-template-columns:1fr auto}
+.res .tot{font:700 62px var(--fh);letter-spacing:-.04em}
+
+/* cierre de ideas */
+.ideas .r{grid-template-columns:170px 560px 1fr;padding:44px 22px}
+.ideas .no{font:700 104px/1 var(--fh);letter-spacing:-.05em}
+.ideas .k{font-size:44px;letter-spacing:-.03em}
+.ideas .v{font-size:26px}
+
+/* capas fuera del escenario */
+#ov{position:fixed;inset:0;z-index:100;background:rgba(4,8,22,.95);backdrop-filter:blur(10px);display:none;overflow:auto;padding:40px 40px 60px}
+#ov.on{display:block}
+#ov .hd{position:sticky;left:0;width:calc(100vw - 80px);display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;color:var(--mut);font-size:14px;letter-spacing:.14em;text-transform:uppercase}
+#ovg{display:flex;gap:18px;align-items:flex-start;width:max-content}
+.ovcol{width:220px;display:flex;flex-direction:column;gap:12px}
+.ovh{font:600 13px var(--fb);color:var(--mut);height:34px;line-height:1.3}
+.ovh b{font-family:var(--fh);color:var(--blue2);margin-right:8px}
+.ovt{width:220px;height:124px;position:relative;overflow:hidden;border-radius:10px;border:1px solid var(--line2);transition:.25s}
+.ovt:hover{border-color:var(--blue2);transform:translateY(-3px)}
+.ovt.cur{outline:2px solid var(--blue);outline-offset:3px}
+.ovc{position:absolute!important;left:0;top:0;width:1920px;height:1080px;transform:scale(.11458)!important;transform-origin:0 0;pointer-events:none;visibility:visible!important;opacity:1!important}
+.ovc .rv,.ovc .kin .kw>span,.ovc .st,.ovc .fbar,.ovc .gb,.ovc .cb{transition:none!important;opacity:1!important;transform:none!important}
+.ovc .glow,.ovc .float{animation:none!important}
+#lb{position:fixed;inset:0;z-index:120;background:rgba(4,8,22,.93);display:none;align-items:center;justify-content:center;cursor:zoom-out}
+#lb.on{display:flex}
+#lb img{max-width:95vw;max-height:92vh;border-radius:12px;box-shadow:0 30px 90px rgba(0,0,0,.7)}
+#notes{visibility:hidden;position:fixed;left:50%;bottom:0;transform:translate(-50%,110%);width:min(1100px,94vw);max-height:46vh;overflow:auto;z-index:90;background:#0B1530;border:1px solid var(--line2);border-bottom:0;border-radius:18px 18px 0 0;padding:22px 30px 26px;transition:transform .5s var(--out);box-shadow:0 -20px 60px rgba(0,0,0,.6)}
+#notes.on{transform:translate(-50%,0);visibility:visible}
+#notes .t{font:600 12px var(--fb);letter-spacing:.2em;text-transform:uppercase;color:var(--blue2);margin-bottom:10px;display:flex;justify-content:space-between;gap:20px}
+#notes .t span{color:var(--mut)}
+#notes .b{font-size:18px;line-height:1.6;color:var(--ink)}
+#notes .b p+p{margin-top:10px}
+#spot{position:fixed;inset:0;z-index:80;pointer-events:none;display:none;background:radial-gradient(circle 190px at var(--x,50%) var(--y,50%),transparent 0,transparent 170px,rgba(0,0,0,.72) 215px)}
+#spot.on{display:block}
+#help{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:110;background:#0B1530;border:1px solid var(--line2);border-radius:18px;padding:30px 36px;display:none;min-width:min(480px,92vw);box-shadow:0 30px 90px rgba(0,0,0,.7)}
+#help.on{display:block}
+#help h3{font-size:22px;margin-bottom:18px}
+#help .r{display:flex;justify-content:space-between;gap:30px;padding:8px 0;border-bottom:1px solid var(--line);font-size:16px;color:var(--mut)}
+</style>
+</head>
+<body>
+<div id="stage" class="noanim">
+
+<!-- 00 PORTADA -->
+<section class="slide cover" data-c="0" data-s="0" data-ch="Portada" data-t="15">
+  <div class="pic"><img src="img/cover.jpg" alt=""></div>
+  <div class="glow" style="width:1300px;height:1300px;left:-500px;top:-600px"></div>
+  <div class="ghost" style="left:110px;bottom:-60px;font-size:420px">VAMI</div>
+  <img class="wmk rv" src="img/logo.png" alt="VAMI">
+  <h1 class="mega kin">De vender un curso<br>a <em>acompañar un puesto.</em></h1>
+  <div class="rule rv" style="--d:6"></div>
+  <p class="lead rv" style="--d:7">Plan de marketing para VAMI, plataforma de formación online para posiciones de asistencia. Diciembre de 2026 a junio de 2027.</p>
+  <div class="foot rv" style="--d:10">
+    <span><b>Grupo 10</b> · Perico, Navoni, Tapia, Segado, Ludueña</span><span>Comercialización · UCA · Tutor: Ing. Lautaro Carrea</span>
+    <span class="hint">Presioná <kbd>→</kbd> para empezar · <kbd>?</kbd> atajos</span>
+  </div>
+  <aside class="notes"><p>Somos el grupo 10. Trabajamos como consultores de VAMI, una plataforma de formación online para asistentes y secretarias. Vamos a recorrer el diagnóstico, la estrategia, las decisiones del plan en sus cinco componentes y una propuesta de innovación: pasar de vender cursos sueltos a una membresía.</p></aside>
+</section>
+
+<!-- 01 RESUMEN -->
+<section class="slide" data-c="1" data-s="0" data-ch="Resumen ejecutivo" data-t="45" data-hook="count">
+  <div class="glow" style="width:1000px;height:1000px;right:-300px;bottom:-500px"></div>
+  <div class="pad">
+    <div class="eye rv"><b>01</b><span class="ln"></span>Resumen ejecutivo</div>
+    <h2 class="h2 kin">El plan completo en <em>cuatro decisiones.</em></h2>
+    <div class="cols sum">
+      <div class="rv" style="--d:5"><div class="n">DIAGNÓSTICO</div><h3>El problema no es el producto</h3><p>Es de demanda y de marca. El curso que debería abrir la venta hoy no se puede comprar.</p></div>
+      <div class="rv" style="--d:6"><div class="n">ESTRATEGIA</div><h3>Diferenciación enfocada</h3><p>Un nicho y un segmento principal: la asistente ejecutiva corporativa.</p></div>
+      <div class="rv" style="--d:7"><div class="n">PLAN</div><h3>Cinco componentes, cero pauta</h3><p>Producto, precio, comunicación, canales y clientes en siete meses.</p></div>
+      <div class="rv" style="--d:8"><div class="n" style="color:var(--coral)">INNOVACIÓN</div><h3 class="co">Membresía Vami Plus</h3><p>Una suscripción que continúa al curso con acompañamiento cada semana.</p></div>
+    </div>
+    <div class="totals rv" style="--d:10">
+      <div><div class="v num"><span class="count" data-to="8">0</span></div><div class="l">objetivos medibles al 30 de junio de 2027</div></div>
+      <div><div class="v num">$<span class="count" data-to="2.75" data-dec="2">0</span> M</div><div class="l">de ingreso bruto esperado si se cumplen las metas</div></div>
+      <div><div class="v num co">$0</div><div class="l">de inversión en medios</div></div>
+    </div>
+  </div>
+  <aside class="notes"><p>Antes del detalle, el plan en cuatro decisiones. Uno: el problema de VAMI no es el producto, es de demanda y de marca. Dos: la estrategia es diferenciación enfocada, con un solo segmento principal. Tres: el plan baja esa estrategia a cinco componentes sin presupuesto de pauta. Cuatro: sumamos una membresía por suscripción, que es nuestra propuesta de innovación.</p><p>Si se cumplen las ocho metas, el plan deja unos 2,75 millones de pesos brutos en siete meses, sin gasto en medios.</p></aside>
+</section>
+
+<!-- 02 DIAGNÓSTICO -->
+<section class="slide" data-c="2" data-s="0" data-ch="Diagnóstico" data-t="30">
+  <div class="grid"></div>
+  <div class="pad">
+    <div class="eye rv"><b>02</b><span class="ln"></span>El cliente</div>
+    <div class="split" style="grid-template-columns:780px 1fr;gap:90px">
+      <div>
+        <h2 class="h3 kin" style="margin-top:0">Capacitaciones <em>de secretarias para secretarias.</em></h2>
+        <div class="who">
+          <figure class="rv" style="--d:5"><img src="img/valeria.jpg" alt="Valeria Andreoli"><figcaption><b>Valeria Andreoli</b><span>CEO · Lic. en Relaciones Institucionales</span></figcaption></figure>
+          <figure class="rv" style="--d:6"><img src="img/mirta.jpg" alt="Mirta Intruvini"><figcaption><b>Mirta Intruvini</b><span>Fundadora · Lic. en Informática</span></figcaption></figure>
+        </div>
+        <p class="pull rv" style="--d:8">Se conocieron trabajando como secretarias y capacitaron a otras asistentes durante su carrera.</p>
+      </div>
+      <figure class="shot rv sc float" style="--d:3"><div class="bar"><i></i><i></i><i></i><span>vami.com.ar</span></div><img src="img/site.jpg" alt="Inicio del sitio de VAMI"></figure>
+    </div>
+    <p class="src rv" style="--d:10">Fuente: vami.com.ar y página de VAMI Argentina en LinkedIn, noviembre de 2026.</p>
+  </div>
+  <aside class="notes"><p>VAMI es una plataforma 100 % online para asistentes y secretarias: cursos asincrónicos, talleres en vivo y consultoría para empresas. La fundaron Valeria Andreoli y Mirta Intruvini. Según cuenta la propia marca en LinkedIn, se conocieron trabajando como secretarias y a lo largo de su carrera capacitaron a otras asistentes. Ese dato no está en el sitio y es la base de toda la estrategia: enseñan el puesto que ejercieron.</p></aside>
+</section>
+
+<section class="slide light" data-c="2" data-s="1" data-t="45">
+  <div class="pad">
+    <div class="eye rv"><b>02</b><span class="ln"></span>Diagnóstico</div>
+    <h2 class="h2 kin">Buena oferta, <em>sin demanda ni marca.</em></h2>
+    <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:90px;margin-top:44px;flex:1">
+      <div class="rows">
+        <div class="r th rv" style="--d:4;grid-template-columns:1fr 150px 230px"><span>Oferta en noviembre de 2026</span><span>Precio</span><span>Situación</span></div>
+        <div class="r rv" style="--d:5;grid-template-columns:1fr 150px 230px"><span class="k">Curso IA para Secretarias y Asistentes</span><span class="v">Sin precio</span><span class="st-no">No se puede comprar</span></div>
+        <div class="r rv" style="--d:6;grid-template-columns:1fr 150px 230px"><span class="k">Curso Organización de Eventos</span><span class="v num">$65.000</span><span class="st-ok">A la venta</span></div>
+        <div class="r rv" style="--d:7;grid-template-columns:1fr 150px 230px"><span class="k">Taller de Eventos, en vivo</span><span class="v num">$19.500</span><span class="st-ok">A la venta</span></div>
+        <div class="r rv" style="--d:8;grid-template-columns:1fr 150px 230px"><span class="k">Taller de IA, grabado</span><span class="v">Gratis</span><span class="st-mid">Sin pedir el correo</span></div>
+        <div class="r rv" style="--d:9;grid-template-columns:1fr 150px 230px"><span class="k">Consultoría para empresas</span><span class="v">A cotizar</span><span class="st-mid">Reunión de diagnóstico</span></div>
+      </div>
+      <div>
+        <div class="pts" style="margin-top:6px">
+          <div class="pt rv" style="--d:6"><div class="dot">1</div><div><h4>Sin plan ni captura de contactos</h4><p>Quien visita el sitio se va sin dejar el correo.</p></div></div>
+          <div class="pt rv" style="--d:7"><div class="dot">2</div><div><h4>Sin prueba social</h4><p>Todavía no hay alumnas ni testimonios.</p></div></div>
+          <div class="pt rv" style="--d:8"><div class="dot">3</div><div><h4>Una promesa demasiado amplia</h4><p>Nadie se reconoce en «plataforma educativa líder a nivel global».</p></div></div>
+          <div class="pt rv" style="--d:9"><div class="dot">4</div><div><h4>El diferencial no se usa</h4><p>La experiencia de las socias no aparece en el sitio.</p></div></div>
+        </div>
+      </div>
+    </div>
+    <p class="src rv" style="--d:11">Fuente: vami.com.ar y páginas de pago de Hotmart, relevadas en noviembre de 2026.</p>
+  </div>
+  <aside class="notes"><p>Hoy VAMI vende el curso de Eventos y un taller en vivo. El curso de IA, que es el más completo, tiene la página armada pero el botón de compra vuelve al catálogo: no se puede comprar. Es el hallazgo más concreto del relevamiento.</p><p>Del análisis sale la idea que ordena el trabajo: el producto responde a lo que el puesto necesita. Lo que falta es demanda y marca. No hay plan, no hay contactos, no hay testimonios, la promesa es demasiado amplia y la experiencia de las socias no se usa para vender.</p></aside>
+</section>
+
+<section class="slide" data-c="2" data-s="2" data-t="45" data-hook="count">
+  <div class="glow" style="width:1200px;height:1200px;left:-400px;top:-300px"></div>
+  <div class="pad">
+    <div class="eye rv"><b>02</b><span class="ln"></span>Contexto</div>
+    <h2 class="h2 kin">La IA llega al puesto <em>y nadie la enseña.</em></h2>
+    <div class="cols tri">
+      <div class="rv" style="--d:5"><div class="bigv num"><span class="count" data-to="57">0</span><span style="font-size:.5em"> %</span></div><p class="body">usa inteligencia artificial en su trabajo. La franja de 31 a 50 años concentra el 60 % del uso.</p><small>Bumeran, abril de 2026 · 2.127 personas</small></div>
+      <div class="rv" style="--d:6"><div class="bigv num"><span class="count" data-to="95">0</span><span style="font-size:.5em"> %</span></div><p class="body">no recibe capacitación en IA de su empleador.</p><small>Randstad, 2025 · 4.089 personas de Argentina, Chile y Uruguay</small></div>
+      <div class="rv" style="--d:7"><div class="bigv num co">26<span style="font-size:.5em"> %</span></div><p style="font:700 30px var(--fh);margin-top:6px;color:var(--coral)">contra 30 % de inflación</p><p class="body" style="margin-top:12px">Aumento salarial proyectado para 2026: el público pierde poder de compra.</p><small>Mercer TISA 2026 · 510 empresas; BCRA, REM de agosto de 2026</small></div>
+    </div>
+    <p class="read rv" style="--d:10">La necesidad existe y la empresa no la cubre. Hay que vender <em>criterio aplicado al puesto,</em> no acceso a una herramienta.</p>
+  </div>
+  <aside class="notes"><p>El contexto explica la oportunidad. El 57 % de los trabajadores ya usa IA y el 95 % no recibe capacitación de su empleador: la necesidad existe y la empresa no la cubre.</p><p>Pero hay un techo. Los salarios suben alrededor de 26 % contra una inflación esperada de 30 %, así que el público pierde poder de compra, y compite con opciones gratuitas. Por eso VAMI tiene que vender criterio profesional aplicado al puesto, con un precio de entrada accesible.</p></aside>
+</section>
+
+<!-- 03 ESTRATEGIA -->
+<section class="slide light" data-c="3" data-s="0" data-ch="Estrategia" data-t="45">
+  <div class="grid"></div>
+  <div class="pad">
+    <div class="eye rv"><b>03</b><span class="ln"></span>Estrategia</div>
+    <h2 class="h2 kin">De los cruces FODA sale <em>una sola estrategia.</em></h2>
+    <div class="opts">
+      <div class="card opt no rv" style="--d:5"><span class="tg">Descartada</span><h3>Liderazgo en costos</h3><div class="bar"></div><p>Lo gratuito fija el precio de referencia en cero. VAMI no puede ganar por ser la más barata.</p><div class="xtra">El bajo costo por alumna permite un precio accesible, pero no es la razón por la que la eligen.</div></div>
+      <div class="card opt no rv" style="--d:6"><span class="tg">Descartada</span><h3>Estrategia mixta</h3><div class="bar"></div><p>Diferenciarse y liderar en costos a la vez exige una escala y un presupuesto que el emprendimiento no tiene.</p><div class="xtra">Intentarlo la dejaría en el medio, sin ventaja clara en ninguna de las dos.</div></div>
+      <div class="card opt yes rv" style="--d:7"><span class="tg">Elegida</span><h3>Diferenciación enfocada</h3><div class="bar"></div><p>La ventaja es la autoridad de par de quien ejerció el rol. Vale solo en el nicho y no se copia con inversión: es biográfica.</p><div class="xtra">Sale de los cruces FO1 (la experiencia como diferencial), FA1 (criterio, no acceso) y DA1 (profundidad de nicho, no alcance).</div></div>
+    </div>
+    <p class="src rv" style="--d:9"><b>Dónde jugar:</b> formación continua, corta y aplicada para quienes ya ejercen funciones de asistencia. <b>Cómo ganar:</b> contenido del puesto, compatible con una jornada completa, enseñado por pares y a precio accesible.</p>
+  </div>
+  <aside class="notes"><p>Con el FODA evaluamos las tres estrategias genéricas. Liderar en costos no es posible, porque lo gratuito pone el precio de referencia en cero. Una estrategia mixta exige escala y presupuesto que VAMI no tiene.</p><p>Elegimos la diferenciación enfocada. La ventaja es que las docentes ejercieron el mismo puesto que la alumna. Solo vale en el nicho de asistencia y no se copia con inversión, porque es biográfica. De ahí sale dónde jugar y cómo ganar.</p></aside>
+</section>
+
+<section class="slide" data-c="3" data-s="1" data-t="40" data-hook="count">
+  <div class="pad">
+    <div class="eye rv"><b>03</b><span class="ln"></span>Objetivos</div>
+    <h2 class="h2 kin" style="font-size:64px">Ocho metas al 30 de junio de 2027, <em>con control el 31 de marzo.</em></h2>
+    <div class="kp">
+      <div class="rv" style="--d:4"><div class="k">OC1</div><div class="v num"><span class="count" data-to="500">0</span></div><p>contactos propios, con su correo</p><small>Control: 200</small></div>
+      <div class="rv" style="--d:5"><div class="k">OC2</div><div class="v num"><span class="count" data-to="1000">0</span></div><p>seguidores en LinkedIn</p><small>Canal prioritario</small></div>
+      <div class="rv" style="--d:6"><div class="k">OC3</div><div class="v num"><span class="count" data-to="30">0</span></div><p>inscripciones pagas al curso de IA</p><small>Control: 10</small></div>
+      <div class="rv" style="--d:7"><div class="k">OC4</div><div class="v num"><span class="count" data-to="5">0</span> %</div><p>de las visitas deja su correo</p><small>Control: 3 %</small></div>
+      <div class="rv" style="--d:8"><div class="k">OC5</div><div class="v num"><span class="count" data-to="10">0</span></div><p>testimonios con nombre y cargo</p><small>Control: 4</small></div>
+      <div class="rv" style="--d:9"><div class="k">OC6</div><div class="v num"><span class="count" data-to="2">0</span></div><p>acuerdos piloto con empresas</p><small>Control: 5 reuniones</small></div>
+      <div class="rv" style="--d:10"><div class="k">OC7</div><div class="v num"><span class="count" data-to="60">0</span> %</div><p>de finalización y 4,5 sobre 5</p><small>Primera cohorte</small></div>
+      <div class="rv new" style="--d:11"><div class="k">OC8 · NUEVO</div><div class="v num"><span class="count" data-to="25">0</span></div><p>socias activas en Vami Plus</p><small>Piloto desde abril</small></div>
+    </div>
+  </div>
+  <aside class="notes"><p>Los objetivos cubren siete meses, del 1 de diciembre al 30 de junio, con un control el 31 de marzo. Los cualitativos son notoriedad en el nicho, posicionamiento, confianza y validar la venta a empresas.</p><p>Los cuantitativos son coherentes entre sí: 500 contactos con una conversión del 6 % dan las 30 inscripciones. El octavo es nuevo y corresponde a la membresía, que vemos más adelante.</p></aside>
+</section>
+
+<!-- 04 SEGMENTO -->
+<section class="slide light" data-c="4" data-s="0" data-ch="Segmento y posicionamiento" data-t="55">
+  <div class="ghost" style="left:60px;bottom:-40px;font-size:620px">S1</div>
+  <div class="pad">
+    <div class="eye rv"><b>04</b><span class="ln"></span>Segmentación y targeting</div>
+    <h2 class="h2 kin">Un criterio, el puesto. <em>Un segmento principal, S1.</em></h2>
+    <div class="seg">
+      <div class="s1">
+        <div class="tag rv" style="--d:5">Segmento principal</div>
+        <h3 class="rv" style="--d:6">Asistente ejecutiva corporativa</h3>
+        <p class="rv" style="--d:7">Asiste a directores o gerentes de empresas medianas o grandes. Necesita mantenerse vigente y ganar tiempo.</p>
+        <div class="for rv" style="--d:9"><span class="chip">Producto de entrada</span><span class="chip">Canal</span><span class="chip">Mensaje</span><span class="chip">Precio</span></div>
+        <p class="rv" style="--d:10;font-size:23px;margin-top:16px">Las cuatro decisiones se toman para ella.</p>
+      </div>
+      <div class="rows others">
+        <div class="r rv" style="--d:7"><span class="lab">Complementario</span><div><div class="k">S2 · Polifuncional de estructura pequeña</div><div class="v">Misma propuesta y mismas piezas, sin contenido aparte.</div></div></div>
+        <div class="r rv" style="--d:8"><span class="lab">Audiencia orgánica</span><div><div class="k">S3 · Puesto inicial</div><div class="v">Consume lo gratuito. No es foco de venta.</div></div></div>
+        <div class="r rv" style="--d:9"><span class="lab">Otro mercado</span><div><div class="k">Empresas (B2B)</div><div class="v">Segundo frente desde marzo, con propuesta propia.</div></div></div>
+      </div>
+    </div>
+    <p class="src rv" style="--d:11">El puesto se define por a quién asiste y qué abarca su tarea. Edad, actitud frente a la IA, ocasión de compra y tamaño de la organización no dividen el mercado: describen a cada segmento.</p>
+  </div>
+  <aside class="notes"><p>Segmentamos con un único criterio: el puesto, es decir, a quién asiste la persona y qué abarca su tarea. Lo elegimos porque del puesto dependen qué necesita aprender, quién paga y dónde se la encuentra.</p><p>El segmento principal es uno solo: S1, la asistente ejecutiva corporativa. Para ella se deciden el producto, el canal, el mensaje y el precio. S2 recibe la misma propuesta sin contenido aparte, S3 solo consume lo gratuito, y las empresas son otro mercado, que se trabaja desde marzo. La edad, la actitud o el tamaño de la organización no dividen el mercado: describen a cada segmento.</p></aside>
+</section>
+
+<section class="slide" data-c="4" data-s="1" data-t="45">
+  <div class="glow" style="width:1100px;height:1100px;left:-300px;bottom:-500px"></div>
+  <div class="pad">
+    <div class="eye rv"><b>04</b><span class="ln"></span>A quién le hablamos</div>
+    <div class="split" style="grid-template-columns:1fr 640px">
+      <div>
+        <p class="quote kin">«Sé que la inteligencia artificial va a cambiar mi trabajo, y <em>nadie en mi empresa me está enseñando a usarla.</em>»</p>
+        <p class="body rv" style="--d:9;margin-top:16px;font-size:20px">Insight del target · hipótesis a validar</p>
+        <div class="pts">
+          <div class="pt rv" style="--d:10"><div class="dot">1</div><div><h4>Su empresa capacita a otras áreas, no a ella</h4></div></div>
+          <div class="pt rv" style="--d:11"><div class="dot">2</div><div><h4>Puede pagar un curso corto sin pedir autorización</h4></div></div>
+          <div class="pt rv" style="--d:12"><div class="dot">3</div><div><h4>Se la encuentra en LinkedIn por su cargo</h4></div></div>
+        </div>
+      </div>
+      <div class="persona rv sc" style="--d:4"><img src="img/silvina.jpg" alt=""><div class="cap"><small>Perfil de compradora · hipótesis</small><h3>Silvina, 44 años</h3><p>Asistente de la dirección general de una empresa de logística de 200 empleados. Probó la IA sola y siente que pierde tiempo: quiere herramientas para aplicar el lunes.</p></div></div>
+    </div>
+  </div>
+  <aside class="notes"><p>¿Por qué S1? Porque reúne la necesidad más clara: la IA ya llega a su puesto y su empresa capacita a otras áreas. Puede pagar un curso corto sin pedir autorización y está en LinkedIn.</p><p>El insight que guía el plan es este: sabe que la IA va a cambiar su trabajo y nadie le enseña. Para bajarlo a tierra armamos a Silvina, asistente de dirección en una empresa de logística. Es una hipótesis construida con lo conversado con la emprendedora, no un caso relevado.</p></aside>
+</section>
+
+<section class="slide" data-c="4" data-s="2" data-t="45">
+  <div class="grid"></div>
+  <div class="pad">
+    <div class="eye rv"><b>04</b><span class="ln"></span>Posicionamiento</div>
+    <div class="split" style="grid-template-columns:900px 1fr;gap:70px">
+      <div class="rv sc" style="--d:3">
+        <svg viewBox="0 0 760 520" style="width:100%;height:auto;font-family:var(--fb)" role="img" aria-label="Mapa de posicionamiento">
+          <rect x="60" y="10" width="690" height="450" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.17)" rx="14"/>
+          <rect x="405" y="235" width="345" height="225" fill="rgba(255,122,92,.1)"/>
+          <line x1="405" y1="10" x2="405" y2="460" stroke="rgba(255,255,255,.2)" stroke-dasharray="5 5"/><line x1="60" y1="235" x2="750" y2="235" stroke="rgba(255,255,255,.2)" stroke-dasharray="5 5"/>
+          <g font-size="13.5" fill="#93A0C2">
+            <circle cx="129" cy="42" r="5.5" fill="#9DB2FF"/><text x="142" y="47">UdeSA, Diplomatura en IA</text>
+            <circle cx="177" cy="91" r="5.5" fill="#9DB2FF"/><text x="190" y="96">Coderhouse, Carrera de IA</text>
+            <circle cx="232" cy="136" r="5.5" fill="#9DB2FF"/><text x="245" y="141">IT College, intensivo de IA</text>
+            <circle cx="391" cy="158" r="5.5" fill="#9DB2FF"/><text x="378" y="181" text-anchor="end">UTN BA, Eventos y Ceremonial</text>
+            <circle cx="681" cy="50" r="5.5" fill="#9DB2FF"/><text x="668" y="55" text-anchor="end">IASE, Carrera de Secretaria</text>
+            <circle cx="550" cy="205" r="5.5" fill="#9DB2FF"/><text x="563" y="210">Aprender21, con IA</text>
+            <circle cx="198" cy="289" r="5.5" fill="#9DB2FF"/><text x="211" y="294">Udemy, Crehana, Domestika</text>
+            <circle cx="150" cy="352" r="5.5" fill="#9DB2FF"/><text x="163" y="357">Santander Open Academy + Google</text>
+            <circle cx="336" cy="390" r="5.5" fill="#9DB2FF"/><text x="323" y="413" text-anchor="end">IA generativa de uso directo</text>
+            <circle cx="95" cy="425" r="5.5" fill="#9DB2FF"/><text x="108" y="430">YouTube y redes</text>
+          </g>
+          <circle cx="633" cy="330" r="15" fill="#FF7A5C"/><circle cx="633" cy="330" r="15" fill="none" stroke="#FF7A5C" stroke-width="2"><animate attributeName="r" values="15;44" dur="2.2s" repeatCount="indefinite"/><animate attributeName="opacity" values=".9;0" dur="2.2s" repeatCount="indefinite"/></circle>
+          <text x="633" y="392" text-anchor="middle" font-size="24" font-weight="700" fill="#fff" style="font-family:var(--fh)">VAMI</text>
+          <text x="405" y="494" text-anchor="middle" font-size="14" font-weight="600" fill="#93A0C2">Especificidad del contenido para el rol →</text>
+          <text x="26" y="235" text-anchor="middle" font-size="14" font-weight="600" fill="#93A0C2" transform="rotate(-90 26 235)">Exigencia en tiempo y dinero →</text>
+        </svg>
+      </div>
+      <div>
+        <h2 class="h3 kin" style="margin-top:0">El lugar corto, accesible y específico del rol <em>estaba vacío.</em></h2>
+        <p class="body rv" style="--d:8;margin-top:30px;font-size:27px;color:var(--ink)">Para las asistentes ejecutivas que sienten que su rol cambia más rápido que su formación, VAMI es la única plataforma, entre las relevadas, que enseña en cursos cortos lo que el rol necesita hoy, <em>porque los dictan profesionales que ejercieron ese mismo rol.</em></p>
+        <div class="rv" style="--d:10;display:flex;gap:10px;flex-wrap:wrap;margin-top:30px"><span class="chip">Funcional: aplicable al día siguiente</span><span class="chip">Emocional: aprender de una par</span></div>
+      </div>
+    </div>
+    <p class="src rv" style="--d:12">Ubicación cualitativa a partir del relevamiento de oferta y precios de septiembre de 2026.</p>
+  </div>
+  <aside class="notes"><p>En el mapa ubicamos las alternativas según dos ejes: qué tan específico es el contenido para el puesto y cuánto tiempo y dinero exige. Las universidades e institutos son largos y caros; las plataformas masivas y lo gratuito son accesibles pero genéricos. El cuadrante corto, accesible y específico del rol estaba vacío. Ahí se ubica VAMI.</p><p>La declaración lo resume: para la asistente ejecutiva, VAMI enseña en cursos cortos lo que el puesto necesita hoy, porque los dictan profesionales que ejercieron ese rol. Un beneficio funcional y uno emocional.</p></aside>
+</section>
+
+<!-- 05 PRODUCTO -->
+<section class="slide" data-c="5" data-s="0" data-ch="Producto" data-t="50">
+  <div class="glow" style="width:1200px;height:1200px;right:-300px;top:-300px"></div>
+  <div class="pad">
+    <div class="eye rv"><b>05</b><span class="ln"></span>Plan de marketing · Producto</div>
+    <h2 class="h2 kin" style="font-size:66px">El curso de IA es la entrada: <em>lo primero es que se pueda comprar.</em></h2>
+    <div class="split" style="grid-template-columns:1fr 760px;gap:70px;align-items:start;margin-top:40px">
+      <div class="layers rv" style="--d:5"><small>Producto aumentado</small><p>Acceso ilimitado, cuotas, Vami Comunidad, garantía de 15 días visible y certificado verificable.</p>
+        <div class="l2"><small>Producto formal</small><p>Seis módulos sobre tareas de oficina, checklist de diez usos rápidos, certificado y una docente que ejerció el rol.</p>
+          <div class="l3"><small>Producto medular</small><p>Ganar horas y seguir vigente en un rol que la IA está cambiando.</p></div></div></div>
+      <div>
+        <figure class="shot rv sc" style="--d:4"><div class="bar"><i></i><i></i><i></i><span>vami.com.ar · curso IA para Secretarias y Asistentes</span></div><img src="img/curso.jpg" alt="Página del curso de IA" style="height:215px;object-fit:cover;object-position:top"></figure>
+        <div class="pts" style="gap:12px;margin-top:22px">
+          <div class="pt rv" style="--d:7"><div class="dot">1</div><div><h4>Habilitar la compra del curso de IA</h4></div></div>
+          <div class="pt rv" style="--d:8"><div class="dot">2</div><div><h4>Garantía visible y certificado con código único</h4></div></div>
+          <div class="pt rv" style="--d:9"><div class="dot">3</div><div><h4>Programa para equipos de tres o más personas</h4></div></div>
+          <div class="pt rv" style="--d:10"><div class="dot">4</div><div><h4>Corregir siete textos que contradicen la promesa</h4></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes"><p>Empezamos por el producto. El curso de IA es el producto de entrada. Lo que se compra en el fondo no es aprender inteligencia artificial: es recuperar horas y seguir vigente. El producto formal son los seis módulos, el checklist, el certificado y una docente que ejerció el puesto. El aumentado baja el riesgo de comprarle a una marca que todavía no tiene alumnas.</p><p>El plan cambia cuatro cosas: habilitar la compra, mostrar la garantía y un certificado verificable, armar un programa para equipos y corregir los textos del sitio.</p></aside>
+</section>
+
+<!-- 06 PRECIO -->
+<section class="slide" data-c="6" data-s="0" data-ch="Precio" data-t="50">
+  <div class="grid"></div>
+  <div class="pad">
+    <div class="eye rv"><b>06</b><span class="ln"></span>Plan de marketing · Precio</div>
+    <h2 class="h2 kin" style="font-size:66px">Penetración lenta y una escalera donde <em>cada compra lleva a la siguiente.</em></h2>
+    <div class="three">
+      <p class="rv" style="--d:6"><b style="color:var(--ink)">Piso.</b> El costo por alumna es casi nulo; por venta, la comisión de Hotmart (9,9 %).</p>
+      <p class="rv" style="--d:7"><b style="color:var(--ink)">Techo.</b> La oferta paga más cercana cuesta más: UTN BA, $103.408; Aprender21, desde $180.000.</p>
+      <p class="rv" style="--d:8"><b style="color:var(--ink)">Lanzamiento.</b> Curso de IA a <span class="co" style="font-weight:700">$49.000</span> hasta el 31 de marzo; después, $65.000.</p>
+    </div>
+    <div class="ladder">
+      <div class="st" style="--i:0;height:34%;background:#7C93D6"><b>Taller de IA</b><span>Gratis, a cambio del correo</span></div>
+      <div class="st" style="--i:1;height:45%;background:#6A82CC"><b>Taller de Eventos</b><span>En vivo, 50 minutos</span></div>
+      <div class="st" style="--i:2;height:56%;background:#5870C2"><b>Curso de IA</b><span>Producto de entrada</span></div>
+      <div class="st" style="--i:3;height:67%;background:#465FB6"><b>Segundo curso o pack</b><span>Para quien ya hizo uno</span></div>
+      <div class="st" style="--i:4;height:79%;background:var(--coral);color:#1A0D08"><b>Vami Plus</b><span>Membresía mensual, desde abril</span></div>
+      <div class="st" style="--i:5;height:90%;background:#2F47A0"><b>Programa para equipos</b><span>Tres o más personas</span></div>
+      <div class="st" style="--i:6;height:100%;background:#22367F"><b>Consultoría</b><span>Plan a medida</span></div>
+    </div>
+    <div class="prices num rv" style="--d:12"><div>Gratis</div><div>$19.500</div><div>$49.000 / $65.000</div><div>$52.000 / $104.000</div><div class="co">$14.900 por mes</div><div>Desde $48.750 p/p</div><div>A cotizar</div></div>
+  </div>
+  <aside class="notes"><p>Para el precio miramos tres cosas. El costo pone un piso bajo: por venta solo se pagan la comisión de Hotmart y los impuestos. La competencia paga más cercana está bastante más arriba. Y el valor percibido todavía no se midió.</p><p>Como los cursos están en introducción, elegimos una penetración lenta: 49.000 pesos hasta el 31 de marzo y 65.000 desde abril. La oferta se ordena como una escalera: el taller gratuito es la entrada, el curso de IA el producto central, después el segundo curso, y en coral el escalón nuevo, la membresía. Arriba, el programa para equipos y la consultoría.</p></aside>
+</section>
+
+<!-- 07 COMUNICACIÓN -->
+<section class="slide" data-c="7" data-s="0" data-ch="Comunicación" data-t="55">
+  <div class="glow" style="width:1000px;height:1000px;left:-300px;top:-200px"></div>
+  <div class="pad">
+    <div class="eye rv"><b>07</b><span class="ln"></span>Plan de marketing · Comunicación</div>
+    <h2 class="h2 kin" style="font-size:66px">Sin pauta: el puesto, <em>antes y después de la IA.</em></h2>
+    <div class="split" style="align-items:start;margin-top:44px;gap:90px">
+      <div>
+        <p class="body rv" style="--d:5;font-size:19px;letter-spacing:.16em;text-transform:uppercase;font-weight:600">Promesa</p>
+        <p class="rv" style="--d:6;font:600 40px/1.25 var(--fh);letter-spacing:-.02em;margin-top:12px">Recuperar horas de trabajo con IA desde el primer módulo, de la mano de alguien que ejerció el mismo puesto.</p>
+        <div class="rv" style="--d:8;display:flex;gap:22px;align-items:center;margin-top:38px"><img src="img/pieza.jpg" alt="" style="width:170px;height:170px;object-fit:cover;border-radius:24px"><div><p class="body" style="font-size:17px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--coral)">Ejemplo de pieza · lunes, LinkedIn</p><p style="font:600 33px/1.25 var(--fh);letter-spacing:-.02em;margin-top:8px">«El acta de directorio en diez minutos, con IA»</p></div></div>
+        <div class="rv" style="--d:10;display:flex;gap:10px;flex-wrap:wrap;margin-top:36px"><span class="chip">4 piezas por semana en LinkedIn</span><span class="chip">Instagram republica</span><span class="chip">1 taller gratuito por mes</span></div>
+      </div>
+      <div>
+        <div class="fun num">
+          <div class="row"><div class="fbar" style="--i:0;width:100%;background:#22367F">10.000 visitas</div></div>
+          <div class="row"><div class="fbar" style="--i:1;width:66%;background:#2F47A0">500 contactos</div><span>5 % de las visitas</span></div>
+          <div class="row"><div class="fbar" style="--i:2;width:50%;background:#465FB6">30 compras</div><span>6 % de los contactos</span></div>
+          <div class="row"><div class="fbar" style="--i:3;width:42%;background:#5870C2">18 terminan</div><span>60 % de las alumnas</span></div>
+          <div class="row"><div class="fbar" style="--i:4;width:37%;background:var(--coral);color:#1A0D08">10 testimonios</div><span>con nombre y cargo</span></div>
+        </div>
+        <p class="body rv" style="--d:12;font-size:22px;margin-top:26px">El embudo traduce los objetivos. El paso más angosto es de visita a contacto: por eso el taller pide el correo antes de verse.</p>
+      </div>
+    </div>
+  </div>
+  <aside class="notes"><p>La comunicación no tiene pauta, así que se apoya en contenido propio. La promesa es recuperar horas con IA desde el primer módulo, de la mano de alguien que ejerció el puesto. La idea es «de secretarias para secretarias»: cada pieza muestra una tarea real antes y después de la IA.</p><p>La semana tipo tiene cuatro piezas en LinkedIn, que es donde está el segmento principal. Instagram solo republica. El embudo traduce los objetivos: de 10.000 visitas, el 5 % deja el correo; de esos 500 contactos, el 6 % compra; el 60 % termina, y de ahí salen los 10 testimonios.</p></aside>
+</section>
+
+<!-- 08 CANALES -->
+<section class="slide light" data-c="8" data-s="0" data-ch="Canales" data-t="45">
+  <div class="pad">
+    <div class="eye rv"><b>08</b><span class="ln"></span>Plan de marketing · Canales</div>
+    <h2 class="h2 kin" style="font-size:66px">Venta directa en los dos mercados, <em>después de cerrar tres fugas.</em></h2>
+    <div class="rv" style="--d:5;margin-top:48px">
+      <div class="lanet">B2C · directo, con cobro en Hotmart</div>
+      <div class="lane"><svg viewBox="0 0 1640 10" preserveAspectRatio="none"><path id="pA" d="M10 5 H1400" stroke="rgba(76,111,255,.45)" stroke-width="2" fill="none" stroke-dasharray="6 8"/><circle r="5" fill="#4C6FFF"><animateMotion dur="5s" repeatCount="indefinite"><mpath href="#pA"/></animateMotion></circle><circle r="4" fill="#1F3864"><animateMotion dur="5s" begin="2.2s" repeatCount="indefinite"><mpath href="#pA"/></animateMotion></circle></svg>
+        <div class="nodes"><div class="nd"><i></i><b>Captación</b><span>LinkedIn, comunidad y alianzas</span></div><div class="nd"><i></i><b>Sitio de VAMI</b><span>Promesa, temario y garantía</span></div><div class="nd"><i></i><b>Cobro</b><span>Tarjeta o Mercado Pago</span></div><div class="nd"><i></i><b>Acceso</b><span>Inmediato</span></div><div class="nd"><i></i><b>Posventa</b><span>Comunidad y segundo curso</span></div></div></div>
+    </div>
+    <div class="rv" style="--d:8;margin-top:44px">
+      <div class="lanet">B2B · venta consultiva, desde marzo de 2027</div>
+      <div class="lane b"><svg viewBox="0 0 1640 10" preserveAspectRatio="none"><path id="pB" d="M10 5 H1400" stroke="rgba(255,122,92,.6)" stroke-width="2" fill="none" stroke-dasharray="6 8"/><circle r="5" fill="#FF7A5C"><animateMotion dur="6s" repeatCount="indefinite"><mpath href="#pB"/></animateMotion></circle></svg>
+        <div class="nodes"><div class="nd"><i></i><b>Contacto</b><span>LinkedIn y referidos</span></div><div class="nd"><i></i><b>Diagnóstico</b><span>Reunión con quien decide</span></div><div class="nd"><i></i><b>Propuesta</b><span>Una página</span></div><div class="nd"><i></i><b>Acuerdo piloto</b><span>Tres o más personas</span></div><div class="nd"><i></i><b>Resultados</b><span>Reunión para renovar</span></div></div></div>
+    </div>
+    <p class="src rv" style="--d:11;font-size:24px;color:var(--lk)"><b>Las tres fugas a cerrar en diciembre:</b> los botones del curso de IA, el botón final del curso de Eventos y el taller grabado, que hoy se ve sin dejar el correo.</p>
+  </div>
+  <aside class="notes"><p>VAMI vende por un canal directo: la compradora llega al sitio, paga en Hotmart y tiene el acceso en el momento. Lo mantenemos directo porque conserva el precio y el margen, le deja a VAMI el contacto de cada alumna y no mezcla la marca con un marketplace.</p><p>Con las empresas, desde marzo, la venta es consultiva en cinco pasos. Antes de empujar ventas hay que cerrar tres fugas que encontramos en el sitio.</p></aside>
+</section>
+
+<!-- 09 CLIENTES -->
+<section class="slide" data-c="9" data-s="0" data-ch="Clientes" data-t="45">
+  <div class="grid"></div>
+  <div class="pad">
+    <div class="eye rv"><b>09</b><span class="ln"></span>Plan de marketing · Clientes</div>
+    <h2 class="h2 kin" style="font-size:66px">Después de la compra empieza el trabajo: <em>acompañar hasta el testimonio.</em></h2>
+    <div class="tl">
+      <div class="ms rv" style="--d:4"><i>1</i><div class="d">Día 0</div><h4>Compra</h4><p>Hotmart habilita el acceso</p></div>
+      <div class="ms rv" style="--d:5"><i>2</i><div class="d">Día 0</div><h4>Bienvenida</h4><p>Cómo empezar y la comunidad</p></div>
+      <div class="ms rv" style="--d:6"><i>3</i><div class="d">Día 3</div><h4>Primer módulo</h4><p>Recordatorio a quien no empezó</p></div>
+      <div class="ms rv" style="--d:7"><i>4</i><div class="d">Día 10</div><h4>Seguimiento</h4><p>Caso práctico del módulo siguiente</p></div>
+      <div class="ms rv" style="--d:8"><i>5</i><div class="d">Al terminar</div><h4>Cierre</h4><p>Certificado, encuesta y testimonio</p></div>
+      <div class="ms rv" style="--d:9"><i>6</i><div class="d">Una semana después</div><h4>Segundo curso</h4><p>Precio para alumnas</p></div>
+      <div class="ms p rv" style="--d:10"><i>7</i><div class="d">Desde abril</div><h4>Vami Plus</h4><p>Primer mes sin cargo</p></div>
+    </div>
+    <div class="cols" style="grid-template-columns:repeat(3,1fr);margin-top:auto">
+      <div class="rv" style="--d:11"><div class="n">FIDELIZACIÓN</div><p style="margin-top:12px">Vami Comunidad abierta y testimonios con nombre, cargo y autorización.</p></div>
+      <div class="rv" style="--d:12"><div class="n">DESARROLLO</div><p style="margin-top:12px">Dos cursos y una colega recomendada suman <b style="color:var(--ink)" class="num">$182.000</b>: casi tres compras sueltas.</p></div>
+      <div class="rv" style="--d:13"><div class="n">CRM Y MÉTRICAS</div><p style="margin-top:12px">Planilla de clientes con origen y etapa. Encuesta de cierre con satisfacción y NPS.</p></div>
+    </div>
+  </div>
+  <aside class="notes"><p>Después de la compra empieza el trabajo con la clienta. El recorrido tiene mensajes al inicio y a la mitad, que es cuando más se abandona un curso asincrónico. Al terminar recibe el certificado, la encuesta y el pedido de testimonio, y una semana después, la oferta del otro curso.</p><p>Una alumna que compra los dos cursos y recomienda a una colega suma 182.000 pesos. Pero con dos cursos en catálogo, la relación se termina en la segunda compra. Ese es el límite que nos llevó a la propuesta que sigue.</p></aside>
+</section>
+
+<!-- 10 VAMI PLUS -->
+<section class="slide plus" data-c="10" data-s="0" data-ch="Innovación: Vami Plus" data-t="55">
+  <div class="glow c" style="width:1300px;height:1300px;right:-400px;top:-500px"></div>
+  <div class="ghost" style="right:60px;bottom:-30px;font-size:380px">PLUS</div>
+  <div class="pad">
+    <div class="eye rv"><b style="color:var(--coral)">10</b><span class="ln"></span>Propuesta de innovación</div>
+    <h2 class="h2 kin">Vami Plus: una membresía que acompaña a la asistente <em>cada semana.</em></h2>
+    <p class="lead rv" style="--d:9">Un curso suelto se compra una vez y la relación termina con el certificado. La membresía le da a la alumna un motivo para quedarse.</p>
+    <div class="weeks">
+      <div class="rv" style="--d:10"><small>Semana 1</small><h3>Taller en vivo</h3><p>El taller abierto del mes, con grabación y materiales.</p></div>
+      <div class="rv" style="--d:11"><small>Semana 2</small><h3>Herramienta nueva</h3><p>Una plantilla, instrucción para la IA o checklist lista para usar.</p></div>
+      <div class="rv" style="--d:12"><small>Semana 3</small><h3>Consultorio</h3><p>60 minutos para resolver casos del trabajo de esa semana.</p></div>
+      <div class="rv" style="--d:13"><small>Semana 4</small><h3>Charla con invitada</h3><p>Una profesional del rol cuenta cómo resolvió un problema.</p></div>
+    </div>
+    <div class="rv" style="--d:15;display:flex;gap:10px;flex-wrap:wrap;margin-top:auto"><span class="chip hot">Siempre: todos los cursos</span><span class="chip hot">Siempre: canal privado de consultas</span><span class="chip">El curso se sigue vendiendo suelto</span><span class="chip">Carga nueva: unas 6 horas por mes</span></div>
+  </div>
+  <aside class="notes"><p>Esta es nuestra propuesta de innovación. Vender un curso suelto tiene un límite: la alumna compra una vez y la relación termina. Proponemos sumar una membresía mensual, Vami Plus, que no reemplaza al curso: lo continúa.</p><p>Cada semana pasa algo: el taller en vivo, una herramienta nueva para usar en el puesto, un consultorio para resolver casos reales y una charla con una invitada. Además, acceso a todos los cursos y un canal de consultas. Encaja con la estrategia porque lo que se paga no es el catálogo, es el acompañamiento de alguien que ejerció el puesto. La carga nueva para las socias es de unas seis horas por mes.</p></aside>
+</section>
+
+<section class="slide plus" data-c="10" data-s="1" data-t="50" data-hook="count">
+  <div class="glow c" style="width:1100px;height:1100px;left:-300px;bottom:-500px"></div>
+  <div class="pad">
+    <div class="eye rv"><b style="color:var(--coral)">10</b><span class="ln"></span>Vami Plus · precio y metas</div>
+    <h2 class="h2 kin" style="font-size:66px">El ingreso deja de depender de <em>una venta nueva cada mes.</em></h2>
+    <div class="cols" style="grid-template-columns:1.05fr .9fr 1.05fr;margin-top:50px;flex:1">
+      <div class="rv" style="--d:6"><div class="n" style="color:var(--coral)">PRECIO</div><div class="bigv num co" style="margin-top:16px">$14.900</div><p style="font-size:26px;margin-top:8px">por mes</p>
+        <p style="margin-top:26px;line-height:1.7">Socias fundadoras: <b style="color:var(--ink)">$11.900</b>, las primeras 50<br>Anual: <b style="color:var(--ink)">$149.000</b>, dos meses sin cargo<br>Alumnas de un curso: primer mes sin cargo</p></div>
+      <div class="rv" style="--d:8"><div class="n" style="color:var(--coral)">QUÉ DEJA UNA CLIENTA</div>
+        <div class="cmp num" style="margin-top:16px"><div><div class="cv">$65.000</div><div class="cb" style="height:215px;background:#465FB6"></div></div><div><div class="cv co">$89.400</div><div class="cb" style="height:296px;background:var(--coral)"></div></div></div>
+        <div style="display:flex;gap:34px;text-align:center"><div class="cl" style="flex:1;font-size:21px;color:var(--mut);margin-top:12px">Un curso suelto</div><div class="cl" style="flex:1;font-size:21px;color:var(--mut);margin-top:12px">Seis meses de membresía</div></div></div>
+      <div class="rv" style="--d:10"><div class="n" style="color:var(--coral)">META DEL PILOTO · OC8</div><div class="bigv num" style="margin-top:16px"><span class="count" data-to="25">0</span></div><p style="font-size:26px;margin-top:8px">socias activas al 30 de junio</p>
+        <p style="margin-top:26px">Dejan <b style="color:var(--ink)" class="num">$297.500 por mes</b>: lo mismo que vender entre cuatro y cinco cursos por mes sin salir a buscar clientas.</p></div>
+    </div>
+    <p class="src rv" style="--d:12;font-size:21px;color:var(--mut)"><b style="color:var(--ink)">Riesgos y respuesta.</b> Poco catálogo: la promesa es el acompañamiento. Carga de las socias: cupo de 50 fundadoras. Bajas tempranas: si superan el 10 % mensual, se revisa el contenido antes que el precio.</p>
+  </div>
+  <aside class="notes"><p>La cuota es de 14.900 pesos por mes, menos de un cuarto de un curso. Eso también responde a la amenaza económica: es más fácil pagar una cuota baja que 65.000 pesos de una vez. Las primeras 50 socias entran a 11.900 y las alumnas tienen el primer mes sin cargo.</p><p>Una socia que se queda seis meses deja 89.400 pesos, 38 % más que un curso suelto. La meta del piloto es llegar a 25 socias activas en junio: eso son casi 300.000 pesos por mes de ingreso recurrente. Se lanza el 1 de abril. Los riesgos están identificados y cada uno tiene su respuesta; el 30 de junio se evalúa si pasa a ser la oferta central.</p></aside>
+</section>
+
+<section class="slide plus" data-c="10" data-s="2" data-t="30" data-hook="count">
+  <div class="grid"></div>
+  <div class="pad">
+    <div class="eye rv"><b style="color:var(--coral)">10</b><span class="ln"></span>Vami Plus · el catálogo que viene</div>
+    <h2 class="h2 kin" style="font-size:66px">De 2 cursos a <span class="count" data-to="13" data-from="2">2</span>: los once que VAMI ya anuncia <em>entran a la membresía.</em></h2>
+    <div class="cat">
+      <div><h4 class="rv" style="--d:6">Hoy a la venta</h4><div class="cs"><span class="chip on rv" style="--d:7">IA para Secretarias y Asistentes</span><span class="chip on rv" style="--d:8">Organización de Eventos</span></div>
+        <h4 class="rv" style="--d:9;margin-top:40px">Herramientas</h4><div class="cs"><span class="chip rv" style="--d:10">Google Workspace</span><span class="chip rv" style="--d:11">Microsoft 365 Esencial</span></div></div>
+      <div><h4 class="rv" style="--d:10">Tareas del puesto</h4><div class="cs"><span class="chip rv" style="--d:11">Organización de Viajes</span><span class="chip rv" style="--d:12">Gestión de Proyectos</span><span class="chip rv" style="--d:13">Redacción y Comunicación profesional</span><span class="chip rv" style="--d:14">Ética y confidencialidad</span><span class="chip rv" style="--d:15">Gestión financiera básica</span></div></div>
+      <div><h4 class="rv" style="--d:12">Rutas por puesto</h4><div class="cs"><span class="chip hot rv" style="--d:13">Secretaria de Dirección</span><span class="chip rv" style="--d:14">Asistente Administrativa</span><span class="chip rv" style="--d:15">Asistente virtual</span><span class="chip rv" style="--d:16">Asistente para Real Estate</span></div></div>
+    </div>
+    <p class="src rv" style="--d:18;font-size:22px;color:var(--mut)"><b style="color:var(--ink)">Cómo se lanzan.</b> De a uno desde julio de 2027, en el orden que voten las socias. Cada curso nuevo entra a Vami Plus sin costo adicional: el catálogo crece sin subir la cuota. Para S1, el primero a evaluar es Secretaria de Dirección.</p>
+  </div>
+  <aside class="notes"><p>El riesgo más claro de una membresía con dos cursos es el poco catálogo. VAMI ya tiene la respuesta en su propio sitio: anuncia once cursos como próximamente. Los agrupamos en herramientas, tareas del puesto y rutas por puesto.</p><p>La propuesta es lanzarlos de a uno desde julio, en el orden que voten las socias, y que cada uno entre a la membresía sin costo adicional. Así el catálogo crece sin subir la cuota, y las socias dicen qué necesita el puesto antes de producirlo. Para nuestro segmento principal, el primero a evaluar es Secretaria de Dirección.</p></aside>
+</section>
+
+<!-- 11 CALENDARIO -->
+<section class="slide light" data-c="11" data-s="0" data-ch="Calendario y resultado" data-t="45">
+  <div class="pad">
+    <div class="eye rv"><b>11</b><span class="ln"></span>Calendario y resultado esperado</div>
+    <h2 class="h2 kin" style="font-size:58px">Diciembre arma la base, marzo empuja <em>y abril abre la membresía.</em></h2>
+    <div style="display:grid;grid-template-columns:1.7fr 1fr;gap:80px;margin-top:30px;flex:1">
+      <div class="rv" style="--d:5">
+        <div class="gantt">
+          <div></div><div class="m">Dic</div><div class="m">Ene</div><div class="m">Feb</div><div class="m">Mar</div><div class="m">Abr</div><div class="m">May</div><div class="m">Jun</div>
+          <div class="g">Producto y precio</div>
+          <div class="lb">Botón de compra y textos del sitio</div><div class="gb d" style="--i:0;grid-column:2/3"></div>
+          <div class="lb">Precio de lanzamiento del curso de IA</div><div class="gb" style="--i:1;grid-column:2/6"></div>
+          <div class="lb">Precio de lista y programa para equipos</div><div class="gb" style="--i:2;grid-column:6/9"></div>
+          <div class="g">Comunicación y canales</div>
+          <div class="lb">Promesa nueva y captura de contactos</div><div class="gb d" style="--i:3;grid-column:2/3"></div>
+          <div class="lb">Contenido y taller gratuito mensual</div><div class="gb" style="--i:4;grid-column:2/9"></div>
+          <div class="lb">Campaña de la cohorte de marzo</div><div class="gb d" style="--i:5;grid-column:5/6"></div>
+          <div class="lb">Venta consultiva a empresas</div><div class="gb" style="--i:6;grid-column:5/9"></div>
+          <div class="g">Clientes e innovación</div>
+          <div class="lb">Recorrido de la alumna</div><div class="gb" style="--i:7;grid-column:2/9"></div>
+          <div class="lb">Vami Plus: armado</div><div class="gb cl" style="--i:8;grid-column:4/6"></div>
+          <div class="lb">Vami Plus: piloto con socias fundadoras</div><div class="gb c" style="--i:9;grid-column:6/9"></div>
+        </div>
+      </div>
+      <div>
+        <div class="rows res num">
+          <div class="r th rv" style="--d:7"><span>Resultado esperado</span><span>Ingreso bruto</span></div>
+          <div class="r rv" style="--d:8"><div><div class="k">Curso de IA</div><div class="v" style="font-size:19px">30 inscripciones</div></div><span class="k">$1.790.000</span></div>
+          <div class="r rv" style="--d:9"><div><div class="k">Programa para equipos</div><div class="v" style="font-size:19px">2 pilotos de tres personas</div></div><span class="k">$331.500</span></div>
+          <div class="r rv" style="--d:10"><div><div class="k">Vami Plus</div><div class="v" style="font-size:19px">10, 18 y 25 socias</div></div><span class="k" style="color:#D9512F">$630.700</span></div>
+          <div class="r rv" style="--d:11;border-bottom:0"><span class="k">Total</span><span class="tot"><em>$2.752.200</em></span></div>
+        </div>
+        <p class="body rv" style="--d:12;font-size:18px;margin-top:10px;padding-left:22px">Antes de la comisión de Hotmart y de impuestos. Es el resultado de cumplir las metas, no un pronóstico.</p>
+      </div>
+    </div>
+  </div>
+  <aside class="notes"><p>El calendario ordena todo en siete meses. Diciembre arma la base: el botón de compra, los textos del sitio, la promesa nueva y la captura de contactos. Enero y febrero sostienen el contenido. Marzo concentra el esfuerzo: vence el precio de lanzamiento, sale la campaña y empieza la venta a empresas. En abril se abre la membresía.</p><p>Si se cumplen las metas, el plan deja unos 2,75 millones brutos en siete meses, sin gasto en medios. Es el resultado de cumplir los objetivos, no un pronóstico. El control es el 31 de marzo: si la conversión de visita a contacto queda debajo del 3 %, se revisa la promesa del sitio antes que el precio.</p></aside>
+</section>
+
+<!-- 12 CONCLUSIONES -->
+<section class="slide" data-c="12" data-s="0" data-ch="Conclusiones" data-t="45">
+  <div class="glow" style="width:1200px;height:1200px;right:-400px;top:-300px"></div>
+  <div class="pad">
+    <div class="eye rv"><b>12</b><span class="ln"></span>Cierre</div>
+    <h2 class="h2 kin">Tres ideas <em>para llevarse.</em></h2>
+    <div class="rows ideas" style="margin-top:36px">
+      <div class="r rv" style="--d:5"><span class="no grad">01</span><span class="k">Lo primero es poder vender</span><span class="v">El plan no necesita cursos nuevos ni pauta. Necesita que el curso de IA se pueda comprar, que el sitio diga lo que VAMI es y que cada contacto quede registrado.</span></div>
+      <div class="r rv" style="--d:7"><span class="no grad">02</span><span class="k">Un segmento, una promesa</span><span class="v">Todo se decide para la asistente ejecutiva corporativa: formación corta, aplicada al puesto y hecha por quienes lo ejercieron.</span></div>
+      <div class="r rv" style="--d:9"><span class="no co">03</span><span class="k">Del curso a la relación</span><span class="v">Cada paso alimenta al siguiente, y la membresía convierte una compra única en un ingreso que se repite.</span></div>
+    </div>
+    <p class="src rv" style="--d:11;font-size:22px;color:var(--mut)"><b style="color:var(--ink)">Queda por validar.</b> Con la emprendedora: los precios, el reparto de tareas y la carga que suma la membresía. Con el estudio de precio y las primeras cohortes: la disposición a pagar y la conversión real del embudo.</p>
+  </div>
+  <aside class="notes"><p>Para cerrar, tres ideas. Primero: el plan no necesita cursos nuevos ni pauta; necesita que el curso de IA se pueda comprar, que el sitio diga lo que VAMI es y que cada contacto quede registrado.</p><p>Segundo: un segmento y una promesa. Todo se decide para la asistente ejecutiva corporativa.</p><p>Tercero: del curso a la relación. La membresía convierte una compra única en un ingreso que se repite. Quedan cosas por validar con la emprendedora y con los primeros datos, y las dejamos explícitas.</p></aside>
+</section>
+
+<!-- 13 CIERRE -->
+<section class="slide close cover" data-c="13" data-s="0" data-ch="Preguntas" data-bare data-t="10">
+  <div class="pic"><img src="img/closing.jpg" alt=""></div>
+  <div class="glow" style="width:1400px;height:1400px;left:-500px;top:-500px"></div>
+  <img class="wmk rv" src="img/logo.png" alt="VAMI">
+  <h1 class="kin">Un segmento.<br>Una promesa.<br><em>Cada semana.</em></h1>
+  <div class="cta rv" style="--d:9"><button class="btn" data-ovbtn>Ver todas las diapositivas</button><span style="color:var(--mut);font-size:22px;margin-left:12px">Gracias. ¿Preguntas?</span></div>
+  <aside class="notes"><p>Un segmento, una promesa, cada semana. Muchas gracias. Quedamos a disposición para las preguntas.</p></aside>
+</section>
+
+<!-- cromo -->
+<div id="chrome">
+  <div class="top">
+    <div class="brand"><span class="wm"><img src="img/logo.png" alt="VAMI"><img src="img/logo-navy.png" alt=""></span><span class="sep"></span><span class="nm">Plan de Marketing 2026–2027</span></div>
+    <div class="where"><span id="chName"></span><b id="chNum"></b></div>
+  </div>
+  <div id="subs"></div>
+  <div id="prog"></div>
+  <div id="nav"><span class="k"><kbd>?</kbd> atajos</span>
+    <button id="nO" title="Todas las diapositivas (O)" aria-label="Todas las diapositivas"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></button>
+    <button id="nN" title="Notas del orador (N)" aria-label="Notas del orador"><svg class="ic" viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></svg></button>
+    <button id="nL" title="Capítulo anterior" aria-label="Capítulo anterior"><svg class="ic" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+    <button id="nU" title="Arriba" aria-label="Arriba"><svg class="ic" viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></svg></button>
+    <button id="nD" title="Abajo" aria-label="Abajo"><svg class="ic" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+    <button id="nR" title="Capítulo siguiente" aria-label="Capítulo siguiente"><svg class="ic" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+  </div>
+</div>
+</div>
+
+<div id="ov"><div class="hd"><span>Todas las diapositivas · clic para ir</span><span><kbd>Esc</kbd> cerrar</span></div><div id="ovg"></div></div>
+<div id="lb"><img alt=""></div>
+<div id="notes"><div class="t"><span id="notesPos" style="color:var(--blue2)"></span><span id="notesTime"></span></div><div class="b" id="notesB"></div></div>
+<div id="spot"></div>
+<div id="help"><h3>Atajos</h3>
+  <div class="r"><span>Siguiente / anterior (puntero)</span><span><kbd>Espacio</kbd> <kbd>AvPág</kbd> / <kbd>RePág</kbd></span></div>
+  <div class="r"><span>Capítulos</span><span><kbd>←</kbd> <kbd>→</kbd></span></div>
+  <div class="r"><span>Detalle dentro de un capítulo</span><span><kbd>↑</kbd> <kbd>↓</kbd></span></div>
+  <div class="r"><span>Todas las diapositivas</span><span><kbd>O</kbd></span></div>
+  <div class="r"><span>Notas del orador y cronómetro</span><span><kbd>N</kbd></span></div>
+  <div class="r"><span>Reiniciar cronómetro</span><span><kbd>R</kbd></span></div>
+  <div class="r"><span>Puntero de luz</span><span><kbd>L</kbd></span></div>
+  <div class="r"><span>Pantalla completa</span><span><kbd>F</kbd></span></div>
+  <div class="r"><span>Ampliar una captura</span><span>clic sobre ella</span></div>
+</div>
+
+<script>
+(function(){
+'use strict';
+var $=function(s,r){return (r||document).querySelector(s);},$$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));};
+var stage=$('#stage'),slides=$$('.slide',stage),chapters=[],names=[],NUM=[],MAXNUM=0;
+slides.forEach(function(el){var c=+el.dataset.c,s=+el.dataset.s;(chapters[c]=chapters[c]||[])[s]=el;el._c=c;el._s=s;});
+var n=0;chapters.forEach(function(v,i){names.push(v[0].dataset.ch||'');NUM.push(i===0?0:++n);});MAXNUM=n-1;
+var ORDER=[];chapters.forEach(function(v){v.forEach(function(el){ORDER.push(el);});});
+var C=0,S=0,hideT=null,prevEl=null,t0=null;
+function pad(x){return (x<10?'0':'')+x;}
+function mmss(x){x=Math.max(0,Math.round(x));return Math.floor(x/60)+':'+pad(x%60);}
+
+function fit(){var k=Math.min(innerWidth/1920,innerHeight/1080);stage.style.transform='translate(-50%,-50%) scale('+k+')';}
+addEventListener('resize',fit);fit();
+
+/* títulos cinéticos: cada palabra sube desde su máscara */
+function split(h){var k=0;(function walk(node){Array.prototype.slice.call(node.childNodes).forEach(function(nd){
+  if(nd.nodeType===3){var parts=nd.textContent.split(/(\s+)/),frag=document.createDocumentFragment();
+    parts.forEach(function(p){if(!p)return;if(/^\s+$/.test(p)){frag.appendChild(document.createTextNode(' '));return;}
+      var w=document.createElement('span');w.className='kw';var i=document.createElement('span');i.style.setProperty('--k',k++);i.textContent=p;w.appendChild(i);frag.appendChild(w);});
+    node.replaceChild(frag,nd);}
+  else if(nd.nodeType===1&&nd.tagName!=='BR'&&!nd.classList.contains('count'))walk(nd);});})(h);}
+$$('.kin').forEach(split);
+
+var prog=$('#prog');
+names.forEach(function(nm,i){var t=document.createElement('i');t.innerHTML='<span>'+(NUM[i]?pad(NUM[i])+' · ':'')+nm+'</span>';t.onclick=function(){go(i,0);};prog.appendChild(t);});
+
+var HOOKS={};
+HOOKS.count=function(el){$$('.count',el).forEach(function(c){var to=+c.dataset.to,dec=+c.dataset.dec||0,from=+c.dataset.from||0,t1=performance.now()+500,dur=1300;
+  (function tick(t){var p=Math.min(1,Math.max(0,(t-t1)/dur));p=1-Math.pow(1-p,3);var v=from+(to-from)*p;
+    c.textContent=dec?v.toFixed(dec).replace('.',','):Math.round(v).toLocaleString('es-AR');if(p<1)requestAnimationFrame(tick);})(performance.now());});};
+
+function layout(back){
+  var cur=chapters[C][S];
+  slides.forEach(function(el){
+    var c=el._c,s=el._s,x=0,y=0,sc=1,op=1,z=1;
+    if(c<C){x=-32;sc=.93;op=0;}else if(c>C){x=100;}else if(s<S){y=-32;sc=.93;op=0;}else if(s>S){y=100;}
+    var act=el===cur;
+    if(act)z=3;else if(el===prevEl)z=back?4:2;
+    el.style.zIndex=z;el.style.transform='translate3d('+x+'%,'+y+'%,0) scale('+sc+')';el.style.opacity=op;
+    if(act||el===prevEl)el.classList.add('vis');
+    el.classList.toggle('act',act);
+  });
+  clearTimeout(hideT);hideT=setTimeout(function(){slides.forEach(function(el){if(el!==chapters[C][S])el.classList.remove('vis');});},1150);
+  stage.classList.toggle('lt',cur.classList.contains('light'));
+  stage.classList.toggle('cv',cur.classList.contains('cover'));stage.classList.toggle('cv0',C===0);
+  $('#chName').textContent=names[C];$('#chNum').textContent=NUM[C]?pad(NUM[C])+' / '+pad(MAXNUM):'';
+  $$('#prog i').forEach(function(t,i){t.className=i<C?'done':i===C?'cur':'';});
+  var subs=$('#subs'),m=chapters[C].length;subs.innerHTML='';
+  if(m>1){for(var i=0;i<m;i++){(function(i){var d=document.createElement('i');if(i===S)d.className='cur';d.onclick=function(){go(C,i);};subs.appendChild(d);})(i);}
+    if(S<m-1){var mo=document.createElement('span');mo.className='more';mo.textContent='MÁS';subs.appendChild(mo);}}
+  $('#nL').disabled=C===0;$('#nR').disabled=C===chapters.length-1;$('#nU').disabled=S===0;$('#nD').disabled=S>=m-1;
+  var hook=cur.dataset.hook;if(hook&&HOOKS[hook])HOOKS[hook](cur);
+  syncNotes();
+  try{history.replaceState(null,'','#d'+C+'-'+S);}catch(e){}
+}
+function go(c,s){
+  c=Math.max(0,Math.min(chapters.length-1,c));s=Math.max(0,Math.min(chapters[c].length-1,s||0));
+  if(c===C&&s===S)return;if(t0===null)t0=Date.now();
+  var back=c<C||(c===C&&s<S);prevEl=chapters[C][S];C=c;S=s;layout(back);
+}
+function next(){if(S<chapters[C].length-1)go(C,S+1);else go(C+1,0);}
+function prev(){if(S>0)go(C,S-1);else if(C>0)go(C-1,chapters[C-1].length-1);}
+$('#nL').onclick=function(){go(C-1,0);};$('#nR').onclick=function(){go(C+1,0);};
+$('#nU').onclick=function(){go(C,S-1);};$('#nD').onclick=function(){go(C,S+1);};
+$('#nO').onclick=function(){openOv();};$('#nN').onclick=function(){$('#notes').classList.toggle('on');};
+
+function anyOverlay(){return $('#ov').classList.contains('on')||$('#lb').classList.contains('on')||$('#help').classList.contains('on');}
+function full(){try{if(document.fullscreenElement)document.exitFullscreen();else document.documentElement.requestFullscreen().catch(function(){});}catch(e){}}
+addEventListener('keydown',function(e){
+  var k=e.key;
+  if(k==='Escape'){closeOv();closeLb();$('#help').classList.remove('on');$('#notes').classList.remove('on');$('#spot').classList.remove('on');return;}
+  if(anyOverlay()){if(k==='o'||k==='O')closeOv();if(k==='?')$('#help').classList.toggle('on');return;}
+  if(k==='ArrowRight'){go(C+1,0);e.preventDefault();}
+  else if(k==='ArrowLeft'){go(C-1,0);e.preventDefault();}
+  else if(k==='ArrowDown'){next();e.preventDefault();}
+  else if(k==='ArrowUp'){go(C,S-1);e.preventDefault();}
+  else if(k===' '||k==='PageDown'||k==='Enter'){if(e.shiftKey)prev();else next();e.preventDefault();}
+  else if(k==='PageUp'||k==='Backspace'){prev();e.preventDefault();}
+  else if(k==='Home')go(0,0);else if(k==='End')go(chapters.length-1,0);
+  else if(k==='o'||k==='O')openOv();
+  else if(k==='n'||k==='N')$('#notes').classList.toggle('on');
+  else if(k==='l'||k==='L')$('#spot').classList.toggle('on');
+  else if(k==='r'||k==='R'){t0=Date.now();}
+  else if(k==='f'||k==='F')full();
+  else if(k==='?')$('#help').classList.toggle('on');
+});
+var wheelLock=0;
+addEventListener('wheel',function(e){if(anyOverlay()||e.target.closest('#notes'))return;var now=Date.now();if(now<wheelLock)return;
+  var dx=e.deltaX,dy=e.deltaY;if(Math.abs(dx)<25&&Math.abs(dy)<25)return;wheelLock=now+950;
+  if(Math.abs(dx)>Math.abs(dy)){if(dx>0)go(C+1,0);else go(C-1,0);}else{if(dy>0)next();else prev();}},{passive:true});
+var tx=0,ty=0;
+addEventListener('touchstart',function(e){tx=e.touches[0].clientX;ty=e.touches[0].clientY;},{passive:true});
+addEventListener('touchend',function(e){if(anyOverlay())return;var dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;if(Math.max(Math.abs(dx),Math.abs(dy))<50)return;
+  if(Math.abs(dx)>Math.abs(dy)){if(dx<0)next();else prev();}else{if(dy<0)next();else prev();}},{passive:true});
+
+addEventListener('mousemove',function(e){
+  var sp=$('#spot');sp.style.setProperty('--x',e.clientX+'px');sp.style.setProperty('--y',e.clientY+'px');
+  var card=e.target.closest&&e.target.closest('.card');
+  if(card){var r=card.getBoundingClientRect();card.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');card.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%');}
+});
+
+/* vista general con miniaturas reales */
+var ovBuilt=false;
+function openOv(){var g=$('#ovg');
+  if(!ovBuilt){chapters.forEach(function(arr,c){var col=document.createElement('div');col.className='ovcol';
+    col.innerHTML='<div class="ovh"><b>'+(NUM[c]?pad(NUM[c]):'')+'</b>'+names[c]+'</div>';
+    arr.forEach(function(el,s){var t=document.createElement('button');t.className='ovt';t.dataset.c=c;t.dataset.s=s;
+      var cl=el.cloneNode(true);cl.removeAttribute('style');cl.classList.add('act','vis','ovc');
+      $$('[id]',cl).forEach(function(x){x.removeAttribute('id');});$$('aside.notes',cl).forEach(function(x){x.remove();});
+      $$('.count',cl).forEach(function(x){var d=+x.dataset.dec||0;x.textContent=d?(+x.dataset.to).toFixed(d).replace('.',','):(+x.dataset.to).toLocaleString('es-AR');});
+      t.appendChild(cl);t.onclick=function(){closeOv();go(c,s);};col.appendChild(t);});
+    g.appendChild(col);});ovBuilt=true;}
+  $$('.ovt').forEach(function(t){t.classList.toggle('cur',+t.dataset.c===C&&+t.dataset.s===S);});
+  $('#ov').classList.add('on');var cur=$('.ovt.cur');if(cur)cur.scrollIntoView({block:'nearest',inline:'center'});}
+function closeOv(){$('#ov').classList.remove('on');}
+$$('[data-ovbtn]').forEach(function(b){b.onclick=openOv;});
+
+var lb=$('#lb'),lbi=$('img',lb);
+stage.addEventListener('click',function(e){var f=e.target.closest('.shot');if(!f)return;lbi.src=$('img',f).src;lb.classList.add('on');});
+lb.addEventListener('click',closeLb);
+function closeLb(){lb.classList.remove('on');}
+
+function syncNotes(){var cur=chapters[C][S],a=$('aside.notes',cur);$('#notesB').innerHTML=a?a.innerHTML:'';
+  $('#notesPos').textContent='Notas · '+(NUM[C]?pad(NUM[C])+(chapters[C].length>1?'.'+(S+1):'')+' ':'')+names[C];}
+setInterval(function(){var plan=0,idx=ORDER.indexOf(chapters[C][S]);for(var i=0;i<=idx;i++)plan+=+ORDER[i].dataset.t||0;
+  $('#notesTime').textContent='Transcurrido '+(t0===null?'0:00':mmss((Date.now()-t0)/1000))+' · previsto al terminar esta '+mmss(plan);},500);
+
+var h=/^#d(\d+)-(\d+)$/.exec(location.hash);
+if(h){C=Math.min(chapters.length-1,+h[1]);S=Math.min(chapters[C].length-1,+h[2]);}
+layout(false);
+requestAnimationFrame(function(){requestAnimationFrame(function(){stage.classList.remove('noanim');});});
+})();
+</script>
+</body>
+</html>
